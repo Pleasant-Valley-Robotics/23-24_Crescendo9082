@@ -93,10 +93,13 @@ public class Robot extends TimedRobot {
     //Use the joystick Y axis for forward movement, X axis for lateral
     //movement, and Z axis for rotation.
     m_robotDrive.driveCartesian(-m_stick.getY(), -m_stick.getX(), -m_stick.getZ());
-    // Fill the buffer with a rainbow
+    
+    //Fill the buffer with a rainbow
     rainbow();
-    // Set the LEDs
+    
+    //Set the LEDs
     m_Led.setData(m_LedBuffer);
+  
   } //End of teleopPeriodic
 
 } //End of Class
