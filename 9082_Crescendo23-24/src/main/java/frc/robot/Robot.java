@@ -20,8 +20,8 @@ public class Robot extends TimedRobot {
 
   //Define local private variables
   private static final int kFrontLeftChannel = 0;
-  private static final int kBackLeftChannel = 2;
   private static final int kFrontRightChannel = 1;
+  private static final int kBackLeftChannel = 2;
   private static final int kBackRightChannel = 3;
   private static final int kJoystickChannel = 0;
   private static AddressableLED m_Led;
