@@ -16,6 +16,7 @@ import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.MecanumControllerCommand;
@@ -33,28 +34,23 @@ import java.util.List;
 public class RobotContainer {
   // The robot's subsystems
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
-
+  private final ShooterSubsystem m_robotShooter = new ShooterSubsystem();
   // The driver's joystick
   Joystick m_driverJoystick = new Joystick(OIConstants.kDriverControllerPort);
-
+  Joystick m_driverJoystick2 = new Joystick(OIConstants.kDriverControllerPort2);
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
 
     // Configure default commands
-    // Set the default drive command to split-stick arcade drive
+    // Set the default drive command to drive with single joystick on field-oriented chassis movement, with shooter controlled by a second joystick's trigger.
     m_robotDrive.setDefaultCommand(
         // A split-stick arcade command, with forward/backward controlled by the left
         // hand, and turning controlled by the right.
         new RunCommand(
             () ->
-                m_robotDrive.drive(
-                    m_driverJoystick.getY(),
-                    m_driverJoystick.getX(),
-                    m_driverJoystick.getTwist(),
-                    true),
-            m_robotDrive));
+                m_robotDrive.drive(m_driverJoystick.getY(), m_driverJoystick.getX(), m_driverJoystick.getTwist(), true), m_robotDrive));
   }
 
   /**
@@ -68,6 +64,9 @@ public class RobotContainer {
     new JoystickButton(m_driverJoystick, 1) 
         .onTrue(new InstantCommand(() -> m_robotDrive.setMaxOutput(0.5)))
         .onFalse(new InstantCommand(() -> m_robotDrive.setMaxOutput(1)));
+    // Shoot when the 2 button is held.
+    new JoystickButton(m_driverJoystick, 2)
+        .onTrue(new InstantCommand(() -> m_robotShooter.shoot(1)));
   }
 
   /**
