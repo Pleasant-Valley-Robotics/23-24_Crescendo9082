@@ -17,6 +17,7 @@ import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.HangingSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.MecanumControllerCommand;
@@ -35,6 +36,7 @@ public class RobotContainer {
   // The robot's subsystems
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
   private final ShooterSubsystem m_robotShooter = new ShooterSubsystem();
+  private final HangingSubsystem m_robotHanging = new HangingSubsystem();
   // The driver's joystick
   Joystick m_driverJoystick = new Joystick(OIConstants.kDriverControllerPort);
   Joystick m_driverJoystick2 = new Joystick(OIConstants.kDriverControllerPort2);
@@ -66,7 +68,12 @@ public class RobotContainer {
         .onFalse(new InstantCommand(() -> m_robotDrive.setMaxOutput(1)));
     // Shoot when the 2 button is held.
     new JoystickButton(m_driverJoystick, 2)
-        .onTrue(new InstantCommand(() -> m_robotShooter.shoot(1)));
+        .onTrue(new InstantCommand(() -> m_robotShooter.shootVoltage(12), m_robotShooter))
+        .onFalse(new InstantCommand(() -> m_robotShooter.shootVoltage(0)));
+    // Hang when the 3 button is held.
+    new JoystickButton(m_driverJoystick, 3)
+    .onTrue(new InstantCommand(() -> m_robotHanging.hangVoltage(12), m_robotHanging))
+    .onFalse(new InstantCommand(() -> m_robotHanging.hangVoltage(0)));
   }
 
   /**
