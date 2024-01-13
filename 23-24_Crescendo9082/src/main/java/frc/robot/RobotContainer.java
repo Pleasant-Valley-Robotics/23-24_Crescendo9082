@@ -59,7 +59,7 @@ public class RobotContainer {
     m_robotIntake.setDefaultCommand(
         new RunCommand(
             () ->
-                m_robotIntake.arm(m_driverJoystick.getY()), m_robotIntake));
+                m_robotIntake.arm(m_driverJoystick2.getY()), m_robotIntake));
   }
 
   /**
@@ -83,7 +83,7 @@ public class RobotContainer {
     .onFalse(new InstantCommand(() -> m_robotHanging.hangVoltage(0)));
     // Intake Feed when the 4 button is held.
     new JoystickButton(m_driverJoystick, 4)
-    .onTrue(new InstantCommand(() -> m_robotIntake.feedVoltage(0), m_robotIntake))
+    .onTrue(new InstantCommand(() -> m_robotIntake.feedVoltage(12), m_robotIntake))
     .onFalse(new InstantCommand(() -> m_robotIntake.feedVoltage(0), m_robotIntake));
   }
 
