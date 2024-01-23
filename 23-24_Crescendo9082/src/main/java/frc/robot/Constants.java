@@ -19,16 +19,23 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile;
  */
 public final class Constants {
   public static final class DriveConstants {
+    //Motor Controller Ports
     public static final int kFrontLeftMotorPort = 0;
     public static final int kFrontRightMotorPort = 1;
     public static final int kRearLeftMotorPort = 2;
     public static final int kRearRightMotorPort = 3;
+    public static final int kFrontShooterMotorPort = 4;
+    public static final int kRearShooterMotorPort = 5;
+    public static final int kLeftHangingMotorPort = 6;
+    public static final int kRightHangingMotorPort = 7;
 
-    public static final double kTrackWidth = 0.5;
     // Distance between centers of right and left wheels on robot
-    public static final double kWheelBase = 0.7;
+    public static final double kTrackWidth = 0.5;
+    
     // Distance between centers of front and back wheels on robot
+    public static final double kWheelBase = 0.7;
 
+    //Mecanum Drive Kinematics Constant Calculations
     public static final MecanumDriveKinematics kDriveKinematics =
         new MecanumDriveKinematics(
             new Translation2d(kWheelBase / 2, kTrackWidth / 2),
@@ -60,6 +67,7 @@ public final class Constants {
 
   public static final class OIConstants {
     public static final int kDriverControllerPort = 0;
+    public static final int kDriverControllerPort2 = 1;
   }
 
   public static final class AutoConstants {
