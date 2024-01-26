@@ -8,7 +8,7 @@ import frc.robot.Constants.DriveConstants;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.CANSparkLowLevel.MotorType;
 
 public class ShooterSubsystem extends SubsystemBase {
   private final CANSparkMax m_upperLeftShooter = new CANSparkMax(DriveConstants.kUpperLeftShooterMotorPort, MotorType.kBrushless);

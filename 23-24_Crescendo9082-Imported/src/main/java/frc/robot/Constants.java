@@ -20,25 +20,25 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile;
 public final class Constants {
   public static final class DriveConstants {
     //Motor Controller Ports
-    public static final int kFrontLeftMotorPort = 0;
-    public static final int kFrontRightMotorPort = 1;
-    public static final int kRearLeftMotorPort = 2;
-    public static final int kRearRightMotorPort = 3;
-    public static final int kIntakeFeedMotorPort = 4;
-    public static final int kIntakeArmMotorPort =5;
-    public static final int kLeftHangingMotorPort = 6;
-    public static final int kRightHangingMotorPort = 7;
-    public static final int kUpperLeftShooterMotorPort = 8;
-    public static final int kLowerLeftShooterMotorPort = 9;
-    public static final int kUpperRightShooterMotorPort = 10;
-    public static final int kLowerRightShooterMotorPort = 11;
-    public static final int kShooterPivotPort = 12;
+    public static final int kFrontLeftMotorPort = 1;
+    public static final int kFrontRightMotorPort = 2;
+    public static final int kRearLeftMotorPort = 3;
+    public static final int kRearRightMotorPort = 4;
+    public static final int kIntakeFeedMotorPort = 5;
+    public static final int kIntakeArmMotorPort = 6;
+    public static final int kLeftHangingMotorPort = 7;
+    public static final int kRightHangingMotorPort = 8;
+    public static final int kUpperLeftShooterMotorPort = 9;
+    public static final int kLowerLeftShooterMotorPort = 10;
+    public static final int kUpperRightShooterMotorPort = 11;
+    public static final int kLowerRightShooterMotorPort = 12;
+    public static final int kShooterPivotPort = 13;
 
     // Distance between centers of right and left wheels on robot
-    public static final double kTrackWidth = 0.5;
+    public static final double kTrackWidth = 22.98 * 0.0254;
     
     // Distance between centers of front and back wheels on robot
-    public static final double kWheelBase = 0.7;
+    public static final double kWheelBase = 20.75 * 0.0254;
 
     //Mecanum Drive Kinematics Constant Calculations
     public static final MecanumDriveKinematics kDriveKinematics =

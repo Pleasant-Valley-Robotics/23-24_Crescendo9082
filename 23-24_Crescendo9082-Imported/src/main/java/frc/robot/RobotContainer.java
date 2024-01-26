@@ -54,12 +54,12 @@ public class RobotContainer {
         // hand, and turning controlled by the right.
         new RunCommand(
             () ->
-                m_robotDrive.drive(m_driverJoystick.getY(), m_driverJoystick.getX(), m_driverJoystick.getTwist(), true), m_robotDrive));
+                m_robotDrive.drive(-m_driverJoystick.getY(), m_driverJoystick.getX(), m_driverJoystick.getTwist(), false), m_robotDrive));
     
     m_robotIntake.setDefaultCommand(
         new RunCommand(
             () ->
-                m_robotIntake.arm(m_driverJoystick2.getY()), m_robotIntake));
+                m_robotIntake.arm(-m_driverJoystick2.getY()), m_robotIntake));
   }
 
   /**
@@ -85,6 +85,16 @@ public class RobotContainer {
     new JoystickButton(m_driverJoystick, 4)
     .onTrue(new InstantCommand(() -> m_robotIntake.feedVoltage(12), m_robotIntake))
     .onFalse(new InstantCommand(() -> m_robotIntake.feedVoltage(0), m_robotIntake));
+    // Drive.
+    new JoystickButton(m_driverJoystick, 5)
+    .onTrue(new InstantCommand(() -> m_robotDrive.drive(1,0,0,false), m_robotDrive))
+    .onFalse(new InstantCommand(() -> m_robotDrive.drive(0,0,0,false), m_robotDrive));
+    // Drive Voltage.
+    new JoystickButton(m_driverJoystick, 7)
+    .toggleOnTrue(new InstantCommand(() -> m_robotDrive.setDriveVolts(12), m_robotDrive));
+    // Drive Voltage Off
+    new JoystickButton(m_driverJoystick, 8)
+    .toggleOnTrue(new InstantCommand(() -> m_robotDrive.setDriveVolts(0), m_robotDrive));
   }
 
   /**
