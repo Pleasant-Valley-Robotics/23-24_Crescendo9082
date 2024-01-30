@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <bytecodeTargetLevel>
+      <module name="23-24_Crescendo9082-Imported" target="17" />
+      <module name="23-24_Crescendo9082-Imported.main" target="17" />
+      <module name="23-24_Crescendo9082-Imported.test" target="17" />
+    </bytecodeTargetLevel>
+  </component>
+</project>
