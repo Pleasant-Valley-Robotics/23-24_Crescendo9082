@@ -7,11 +7,14 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class AmpSubsystem extends SubsystemBase {
-  /** Creates a new AmpSubsystem. */
-  public AmpSubsystem() {}
+    /**
+     * Creates a new AmpSubsystem.
+     */
+    public AmpSubsystem() {
+    }
 
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
-  }
+    @Override
+    public void periodic() {
+        // This method will be called once per scheduler run
+    }
 }
