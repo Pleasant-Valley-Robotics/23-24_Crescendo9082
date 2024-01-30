@@ -11,10 +11,10 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 public class IntakeSubsystem extends SubsystemBase {
-  private final CANSparkMax m_intakeArm = new CANSparkMax(DriveConstants.INTAKE_FEED_MOTOR_PORT, MotorType.kBrushless);
-  private final CANSparkMax m_intakeFeed = new CANSparkMax(DriveConstants.INTAKE_ARM_MOTOR_PORT, MotorType.kBrushless);
-  private final RelativeEncoder m_intakeArmEncoder = m_intakeArm.getEncoder();
-  private final RelativeEncoder m_intakeFeedEncoder = m_intakeFeed.getEncoder();
+  private final CANSparkMax intakeArm = new CANSparkMax(DriveConstants.INTAKE_FEED_MOTOR_PORT, MotorType.kBrushless);
+  private final CANSparkMax intakeFeed = new CANSparkMax(DriveConstants.INTAKE_ARM_MOTOR_PORT, MotorType.kBrushless);
+  private final RelativeEncoder intakeArmEncoder = intakeArm.getEncoder();
+  private final RelativeEncoder intakeFeedEncoder = intakeFeed.getEncoder();
   
   /** Creates a new IntakeSubsystem. */
   public IntakeSubsystem() {}
@@ -30,17 +30,17 @@ public class IntakeSubsystem extends SubsystemBase {
    */
   public void feed(double speed) 
   {
-    m_intakeFeed.set(speed);
+    intakeFeed.set(speed);
   }
 
   /** Sets the intake feed MotorControllers to a voltage. */
   public void feedVoltage(double volts) {
-    m_intakeFeed.setVoltage(volts);
+    intakeFeed.setVoltage(volts);
   }
 
   /** Resets the intake feed encoders to currently read a position of 0. */
   public void resetFeedEncoders() {
-    m_intakeFeedEncoder.setPosition(0);
+    intakeFeedEncoder.setPosition(0);
   }
 
   /**
@@ -49,7 +49,7 @@ public class IntakeSubsystem extends SubsystemBase {
    * @return the intake feed drive encoder
    */
   public RelativeEncoder getIntakeFeedEncoder() {
-    return m_intakeFeedEncoder;
+    return intakeFeedEncoder;
   }
 /**
    * Drives the intake arm at given speed. Speeds range from [-1, 1].
@@ -58,17 +58,17 @@ public class IntakeSubsystem extends SubsystemBase {
    */
   public void arm(double speed) 
   {
-    m_intakeFeed.set(speed);
+    intakeFeed.set(speed);
   }
 
   /** Sets the intake arm MotorControllers to a voltage. */
   public void armVoltage(double volts) {
-    m_intakeFeed.setVoltage(volts);
+    intakeFeed.setVoltage(volts);
   }
 
   /** Resets the intake arm encoders to currently read a position of 0. */
   public void resetArmEncoders() {
-    m_intakeArmEncoder.setPosition(0);
+    intakeArmEncoder.setPosition(0);
   }
 
   /**
@@ -77,6 +77,6 @@ public class IntakeSubsystem extends SubsystemBase {
    * @return the intake arm encoder
    */
   public RelativeEncoder getArmEncoder() {
-    return m_intakeFeedEncoder;
+    return intakeFeedEncoder;
   }
 }

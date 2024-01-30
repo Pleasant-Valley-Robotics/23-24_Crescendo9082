@@ -35,13 +35,13 @@ import java.util.List;
  */
 public class RobotContainer {
   // The robot's subsystems
-  private final DriveSubsystem m_robotDrive = new DriveSubsystem();
-  private final ShooterSubsystem m_robotShooter = new ShooterSubsystem();
-  private final HangingSubsystem m_robotHanging = new HangingSubsystem();
-  private final IntakeSubsystem m_robotIntake = new IntakeSubsystem();
+  private final DriveSubsystem robotDrive = new DriveSubsystem();
+  private final ShooterSubsystem robotShooter = new ShooterSubsystem();
+  private final HangingSubsystem robotHanging = new HangingSubsystem();
+  private final IntakeSubsystem robotIntake = new IntakeSubsystem();
   // The driver's joystick
-  Joystick m_driverJoystick = new Joystick(OIConstants.DRIVER_CONTROLLER_PORT);
-  Joystick m_driverJoystick2 = new Joystick(OIConstants.DRIVER_CONTROLLER_PORT_2);
+  Joystick driverJoystick = new Joystick(OIConstants.DRIVER_CONTROLLER_PORT);
+  Joystick driverJoystick2 = new Joystick(OIConstants.DRIVER_CONTROLLER_PORT_2);
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the button bindings
@@ -49,17 +49,17 @@ public class RobotContainer {
 
     // Configure default commands
     // Set the default drive command to drive with single joystick on field-oriented chassis movement, with shooter controlled by a second joystick's trigger.
-    m_robotDrive.setDefaultCommand(
+    robotDrive.setDefaultCommand(
         // A split-stick arcade command, with forward/backward controlled by the left
         // hand, and turning controlled by the right.
         new RunCommand(
             () ->
-                m_robotDrive.drive(m_driverJoystick.getY(), m_driverJoystick.getX(), m_driverJoystick.getTwist(), true), m_robotDrive));
+                robotDrive.drive(driverJoystick.getY(), driverJoystick.getX(), driverJoystick.getTwist(), true), robotDrive));
     
-    m_robotIntake.setDefaultCommand(
+    robotIntake.setDefaultCommand(
         new RunCommand(
             () ->
-                m_robotIntake.arm(m_driverJoystick2.getY()), m_robotIntake));
+                robotIntake.arm(driverJoystick2.getY()), robotIntake));
   }
 
   /**
@@ -70,21 +70,21 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     // Drive at half speed when the 1 button is held.
-    new JoystickButton(m_driverJoystick, 1) 
-        .onTrue(new InstantCommand(() -> m_robotShooter.shootVoltageAmp(12), m_robotShooter))
-        .onFalse(new InstantCommand(() -> m_robotShooter.shootVoltageAmp(0)));
+    new JoystickButton(driverJoystick, 1) 
+        .onTrue(new InstantCommand(() -> robotShooter.shootVoltageAmp(12), robotShooter))
+        .onFalse(new InstantCommand(() -> robotShooter.shootVoltageAmp(0)));
     // Shoot when the 2 button is held.
-    new JoystickButton(m_driverJoystick, 2)
-        .onTrue(new InstantCommand(() -> m_robotShooter.shootVoltageSpeaker(12), m_robotShooter))
-        .onFalse(new InstantCommand(() -> m_robotShooter.shootVoltageSpeaker(0)));
+    new JoystickButton(driverJoystick, 2)
+        .onTrue(new InstantCommand(() -> robotShooter.shootVoltageSpeaker(12), robotShooter))
+        .onFalse(new InstantCommand(() -> robotShooter.shootVoltageSpeaker(0)));
     // Hang when the 3 button is held.
-    new JoystickButton(m_driverJoystick, 3)
-    .onTrue(new InstantCommand(() -> m_robotHanging.hangVoltage(12), m_robotHanging))
-    .onFalse(new InstantCommand(() -> m_robotHanging.hangVoltage(0)));
+    new JoystickButton(driverJoystick, 3)
+    .onTrue(new InstantCommand(() -> robotHanging.hangVoltage(12), robotHanging))
+    .onFalse(new InstantCommand(() -> robotHanging.hangVoltage(0)));
     // Intake Feed when the 4 button is held.
-    new JoystickButton(m_driverJoystick, 4)
-    .onTrue(new InstantCommand(() -> m_robotIntake.feedVoltage(12), m_robotIntake))
-    .onFalse(new InstantCommand(() -> m_robotIntake.feedVoltage(0), m_robotIntake));
+    new JoystickButton(driverJoystick, 4)
+    .onTrue(new InstantCommand(() -> robotIntake.feedVoltage(12), robotIntake))
+    .onFalse(new InstantCommand(() -> robotIntake.feedVoltage(0), robotIntake));
   }
 
   /**
@@ -115,7 +115,7 @@ public class RobotContainer {
     MecanumControllerCommand mecanumControllerCommand =
         new MecanumControllerCommand(
             exampleTrajectory,
-            m_robotDrive::getPose,
+            robotDrive::getPose,
             DriveConstants.FEEDFORWARD,
             DriveConstants.DRIVE_KINEMATICS,
 
@@ -133,14 +133,14 @@ public class RobotContainer {
             new PIDController(DriveConstants.P_REAR_LEFT_VEL, 0, 0),
             new PIDController(DriveConstants.P_FRONT_RIGHT_VEL, 0, 0),
             new PIDController(DriveConstants.P_REAR_RIGHT_VEL, 0, 0),
-            m_robotDrive::getCurrentWheelSpeeds,
-            m_robotDrive::setDriveMotorControllersVolts, // Consumer for the output motor voltages
-            m_robotDrive);
+            robotDrive::getCurrentWheelSpeeds,
+            robotDrive::setDriveMotorControllersVolts, // Consumer for the output motor voltages
+            robotDrive);
 
     // Reset odometry to the starting pose of the trajectory.
-    m_robotDrive.resetOdometry(exampleTrajectory.getInitialPose());
+    robotDrive.resetOdometry(exampleTrajectory.getInitialPose());
 
     // Run path following command, then stop at the end.
-    return mecanumControllerCommand.andThen(() -> m_robotDrive.drive(0, 0, 0, false));
+    return mecanumControllerCommand.andThen(() -> robotDrive.drive(0, 0, 0, false));
   }
 }

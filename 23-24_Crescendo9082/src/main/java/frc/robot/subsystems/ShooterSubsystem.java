@@ -11,15 +11,15 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 public class ShooterSubsystem extends SubsystemBase {
-  private final CANSparkMax m_upperLeftShooter = new CANSparkMax(DriveConstants.UPPER_LEFT_SHOOTER_MOTOR_PORT, MotorType.kBrushless);
-  private final CANSparkMax m_lowerLeftShooter = new CANSparkMax(DriveConstants.LOWER_LEFT_SHOOTER_MOTOR_PORT, MotorType.kBrushless);
-  private final CANSparkMax m_upperRightShooter = new CANSparkMax(DriveConstants.UPPER_RIGHT_SHOOTER_MOTOR_PORT, MotorType.kBrushless);
-  private final CANSparkMax m_lowerRightShooter = new CANSparkMax(DriveConstants.LOWER_RIGHT_SHOOTER_MOTOR_PORT, MotorType.kBrushless);
-  private final CANSparkMax m_shooterArm = new CANSparkMax(DriveConstants.SHOOTER_PIVOT_PORT, MotorType.kBrushless);
-  private final RelativeEncoder m_upperLeftShooterEncoder = m_upperLeftShooter.getEncoder();
-  private final RelativeEncoder m_lowerLeftShooterEncoder = m_lowerLeftShooter.getEncoder();
-  private final RelativeEncoder m_upperRightShooterEncoder = m_upperRightShooter.getEncoder();
-  private final RelativeEncoder m_lowerRightShooterEncoder = m_lowerRightShooter.getEncoder();
+  private final CANSparkMax upperLeftShooter = new CANSparkMax(DriveConstants.UPPER_LEFT_SHOOTER_MOTOR_PORT, MotorType.kBrushless);
+  private final CANSparkMax lowerLeftShooter = new CANSparkMax(DriveConstants.LOWER_LEFT_SHOOTER_MOTOR_PORT, MotorType.kBrushless);
+  private final CANSparkMax upperRightShooter = new CANSparkMax(DriveConstants.UPPER_RIGHT_SHOOTER_MOTOR_PORT, MotorType.kBrushless);
+  private final CANSparkMax lowerRightShooter = new CANSparkMax(DriveConstants.LOWER_RIGHT_SHOOTER_MOTOR_PORT, MotorType.kBrushless);
+  private final CANSparkMax shooterArm = new CANSparkMax(DriveConstants.SHOOTER_PIVOT_PORT, MotorType.kBrushless);
+  private final RelativeEncoder upperLeftShooterEncoder = upperLeftShooter.getEncoder();
+  private final RelativeEncoder lowerLeftShooterEncoder = lowerLeftShooter.getEncoder();
+  private final RelativeEncoder upperRightShooterEncoder = upperRightShooter.getEncoder();
+  private final RelativeEncoder lowerRightShooterEncoder = lowerRightShooter.getEncoder();
   
 
   /** Creates a new DriveSubsystem. */
@@ -34,12 +34,12 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public void shooterArmSpeed(double speed)
   {
-    m_shooterArm.set(speed*.1);
+    shooterArm.set(speed*.1);
   }
 
   public void shooterArmVoltage(double volts)
   {
-    m_shooterArm.setVoltage(volts);
+    shooterArm.setVoltage(volts);
     
   }
 
@@ -50,55 +50,55 @@ public class ShooterSubsystem extends SubsystemBase {
    */
   public void shootSpeaker(double speed) 
   {
-    m_upperLeftShooter.set(speed);
-    m_lowerLeftShooter.set(speed);
-    m_upperRightShooter.set(speed);
-    m_lowerRightShooter.set(speed);
+    upperLeftShooter.set(speed);
+    lowerLeftShooter.set(speed);
+    upperRightShooter.set(speed);
+    lowerRightShooter.set(speed);
   }
 
   /** Sets the shooter MotorControllers to a voltage. */
   public void shootVoltageSpeaker(double volts) {
-    m_upperLeftShooter.setVoltage(volts);
-    m_lowerLeftShooter.setVoltage(volts);
-    m_upperRightShooter.setVoltage(volts);
-    m_lowerRightShooter.setVoltage(volts);
+    upperLeftShooter.setVoltage(volts);
+    lowerLeftShooter.setVoltage(volts);
+    upperRightShooter.setVoltage(volts);
+    lowerRightShooter.setVoltage(volts);
   }
 
   public void shootAmp(double speed) 
   {
-    m_upperLeftShooter.set(-speed);
-    m_lowerLeftShooter.set(speed);
-    m_upperRightShooter.set(speed);
-    m_lowerRightShooter.set(-speed);
+    upperLeftShooter.set(-speed);
+    lowerLeftShooter.set(speed);
+    upperRightShooter.set(speed);
+    lowerRightShooter.set(-speed);
   }
 
   /** Sets the shooter MotorControllers to a voltage. */
   public void shootVoltageAmp(double volts) {
-    m_upperLeftShooter.setVoltage(-volts);
-    m_lowerLeftShooter.setVoltage(volts);
-    m_upperRightShooter.setVoltage(volts);
-    m_lowerRightShooter.setVoltage(-volts);
+    upperLeftShooter.setVoltage(-volts);
+    lowerLeftShooter.setVoltage(volts);
+    upperRightShooter.setVoltage(volts);
+    lowerRightShooter.setVoltage(-volts);
   }
 
   /** Resets the shooter encoders to currently read a position of 0. */
   public void resetEncoders() {
-    m_upperLeftShooterEncoder.setPosition(0);
-    m_lowerLeftShooterEncoder.setPosition(0);
-    m_upperRightShooterEncoder.setPosition(0);
-    m_lowerRightShooterEncoder.setPosition(0);
+    upperLeftShooterEncoder.setPosition(0);
+    lowerLeftShooterEncoder.setPosition(0);
+    upperRightShooterEncoder.setPosition(0);
+    lowerRightShooterEncoder.setPosition(0);
   }
 
   public RelativeEncoder getUpperLeftShooterEncoder() {
-    return m_upperLeftShooterEncoder;
+    return upperLeftShooterEncoder;
   }
     public RelativeEncoder getLowerLeftShooterEncoder() {
-    return m_lowerLeftShooterEncoder;
+    return lowerLeftShooterEncoder;
   }
     public RelativeEncoder getUpperRightShooterEncoder() {
-    return m_upperRightShooterEncoder;
+    return upperRightShooterEncoder;
   }
     public RelativeEncoder getLowerRightShooterEncoder() {
-    return m_lowerRightShooterEncoder;
+    return lowerRightShooterEncoder;
   }
 
 }

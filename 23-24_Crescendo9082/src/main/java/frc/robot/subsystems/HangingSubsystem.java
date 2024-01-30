@@ -11,10 +11,10 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 public class HangingSubsystem extends SubsystemBase {
-  private final CANSparkMax m_leftHangingMotor = new CANSparkMax(DriveConstants.LEFT_HANGING_MOTOR_PORT, MotorType.kBrushless);
-  private final CANSparkMax m_rightHangingMotor = new CANSparkMax(DriveConstants.RIGHT_HANGING_MOTOR_PORT, MotorType.kBrushless);
-  private final RelativeEncoder m_leftHangingEncoder = m_leftHangingMotor.getEncoder();
-  private final RelativeEncoder m_rightHangingEncoder = m_rightHangingMotor.getEncoder();
+  private final CANSparkMax leftHangingMotor = new CANSparkMax(DriveConstants.LEFT_HANGING_MOTOR_PORT, MotorType.kBrushless);
+  private final CANSparkMax rightHangingMotor = new CANSparkMax(DriveConstants.RIGHT_HANGING_MOTOR_PORT, MotorType.kBrushless);
+  private final RelativeEncoder leftHangingEncoder = leftHangingMotor.getEncoder();
+  private final RelativeEncoder rightHangingEncoder = rightHangingMotor.getEncoder();
   /** Creates a new HangingSubsystem. */
   public HangingSubsystem() {}
 
@@ -30,20 +30,20 @@ public class HangingSubsystem extends SubsystemBase {
    */
   public void hang(double speed) 
   {
-    m_leftHangingMotor.set(speed);
-    m_rightHangingMotor.set(speed);
+    leftHangingMotor.set(speed);
+    rightHangingMotor.set(speed);
   }
 
   /** Sets the hanging MotorControllers to a voltage. */
   public void hangVoltage(double volts) {
-    m_leftHangingMotor.setVoltage(volts);
-    m_rightHangingMotor.setVoltage(volts);
+    leftHangingMotor.setVoltage(volts);
+    rightHangingMotor.setVoltage(volts);
   }
 
   /** Resets the hanging encoders to currently read a position of 0. */
   public void resetEncoders() {
-    m_leftHangingEncoder.setPosition(0);
-    m_rightHangingEncoder.setPosition(0);
+    leftHangingEncoder.setPosition(0);
+    rightHangingEncoder.setPosition(0);
   }
 
   /**
@@ -52,7 +52,7 @@ public class HangingSubsystem extends SubsystemBase {
    * @return the front hanging drive encoder
    */
   public RelativeEncoder getLeftHangingEncoder() {
-    return m_leftHangingEncoder;
+    return leftHangingEncoder;
   }
 
   /**
@@ -61,6 +61,6 @@ public class HangingSubsystem extends SubsystemBase {
    * @return the rear hanging drive encoder
    */
   public RelativeEncoder getRightHangingEncoder() {
-    return m_rightHangingEncoder;
+    return rightHangingEncoder;
   }
 }
