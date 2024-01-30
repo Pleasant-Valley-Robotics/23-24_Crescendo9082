@@ -11,8 +11,8 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 public class IntakeSubsystem extends SubsystemBase {
-  private final CANSparkMax m_intakeArm = new CANSparkMax(DriveConstants.kIntakeFeedMotorPort, MotorType.kBrushless);
-  private final CANSparkMax m_intakeFeed = new CANSparkMax(DriveConstants.kIntakeArmMotorPort, MotorType.kBrushless);
+  private final CANSparkMax m_intakeArm = new CANSparkMax(DriveConstants.INTAKE_FEED_MOTOR_PORT, MotorType.kBrushless);
+  private final CANSparkMax m_intakeFeed = new CANSparkMax(DriveConstants.INTAKE_ARM_MOTOR_PORT, MotorType.kBrushless);
   private final RelativeEncoder m_intakeArmEncoder = m_intakeArm.getEncoder();
   private final RelativeEncoder m_intakeFeedEncoder = m_intakeFeed.getEncoder();
   

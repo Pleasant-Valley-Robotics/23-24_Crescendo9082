@@ -11,8 +11,8 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 public class HangingSubsystem extends SubsystemBase {
-  private final CANSparkMax m_leftHangingMotor = new CANSparkMax(DriveConstants.kLeftHangingMotorPort, MotorType.kBrushless);
-  private final CANSparkMax m_rightHangingMotor = new CANSparkMax(DriveConstants.kRightHangingMotorPort, MotorType.kBrushless);
+  private final CANSparkMax m_leftHangingMotor = new CANSparkMax(DriveConstants.LEFT_HANGING_MOTOR_PORT, MotorType.kBrushless);
+  private final CANSparkMax m_rightHangingMotor = new CANSparkMax(DriveConstants.RIGHT_HANGING_MOTOR_PORT, MotorType.kBrushless);
   private final RelativeEncoder m_leftHangingEncoder = m_leftHangingMotor.getEncoder();
   private final RelativeEncoder m_rightHangingEncoder = m_rightHangingMotor.getEncoder();
   /** Creates a new HangingSubsystem. */
