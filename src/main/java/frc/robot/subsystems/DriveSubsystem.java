@@ -61,6 +61,8 @@ public class DriveSubsystem extends SubsystemBase {
         robotData.add("Front Right Motor", FRDrive);
         robotData.add("Back Left Motor", BLDrive);
         robotData.add("Back Right Motor", BRDrive);
+
+        robotData.add("Gyro", gyro);
     }
 
     @Override
