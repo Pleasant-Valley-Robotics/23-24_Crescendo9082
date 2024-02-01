@@ -18,17 +18,18 @@ import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants;
 
+import static frc.robot.ShuffleboardContainer.robotData;
+
 public class DriveSubsystem extends SubsystemBase {
-    private final CANSparkMax frontLeft = new CANSparkMax(DriveConstants.FRONT_LEFT_MOTOR_PORT, MotorType.kBrushless);
-    private final CANSparkMax frontRight = new CANSparkMax(DriveConstants.FRONT_RIGHT_MOTOR_PORT, MotorType.kBrushless);
-    private final CANSparkMax rearLeft = new CANSparkMax(DriveConstants.REAR_LEFT_MOTOR_PORT, MotorType.kBrushless);
-    private final CANSparkMax rearRight = new CANSparkMax(DriveConstants.REAR_RIGHT_MOTOR_PORT, MotorType.kBrushless);
-    private final RelativeEncoder frontLeftEncoder = frontLeft.getEncoder();
-    private final RelativeEncoder frontRightEncoder = frontRight.getEncoder();
-    private final RelativeEncoder rearLeftEncoder = rearLeft.getEncoder();
-    private final RelativeEncoder rearRightEncoder = rearRight.getEncoder();
-    private final MecanumDrive drive =
-            new MecanumDrive(frontLeft, rearLeft, frontRight, rearRight);
+    private final CANSparkMax FLDrive = new CANSparkMax(DriveConstants.FRONT_LEFT_MOTOR_PORT, MotorType.kBrushless);
+    private final CANSparkMax FRDrive = new CANSparkMax(DriveConstants.FRONT_RIGHT_MOTOR_PORT, MotorType.kBrushless);
+    private final CANSparkMax BLDrive = new CANSparkMax(DriveConstants.REAR_LEFT_MOTOR_PORT, MotorType.kBrushless);
+    private final CANSparkMax BRDrive = new CANSparkMax(DriveConstants.REAR_RIGHT_MOTOR_PORT, MotorType.kBrushless);
+    private final RelativeEncoder frontLeftEncoder = FLDrive.getEncoder();
+    private final RelativeEncoder frontRightEncoder = FRDrive.getEncoder();
+    private final RelativeEncoder backLeftEncoder = BLDrive.getEncoder();
+    private final RelativeEncoder backRightEncoder = BRDrive.getEncoder();
+    private final MecanumDrive drive = new MecanumDrive(FLDrive, BLDrive, FRDrive, BRDrive);
 
 
     // The gyro sensor
@@ -48,13 +49,18 @@ public class DriveSubsystem extends SubsystemBase {
         // Sets the distance per pulse for the encoders
         frontLeftEncoder.setPositionConversionFactor(DriveConstants.ENCODER_DISTANCE_PER_PULSE);
         frontRightEncoder.setPositionConversionFactor(DriveConstants.ENCODER_DISTANCE_PER_PULSE);
-        rearLeftEncoder.setPositionConversionFactor(DriveConstants.ENCODER_DISTANCE_PER_PULSE);
-        rearRightEncoder.setPositionConversionFactor(DriveConstants.ENCODER_DISTANCE_PER_PULSE);
+        backLeftEncoder.setPositionConversionFactor(DriveConstants.ENCODER_DISTANCE_PER_PULSE);
+        backRightEncoder.setPositionConversionFactor(DriveConstants.ENCODER_DISTANCE_PER_PULSE);
         // We need to invert one side of the drivetrain so that positive voltages
         // result in both sides moving forward. Depending on how your robot's
         // gearbox is constructed, you might have to invert the left side instead.
-        frontRight.setInverted(true);
-        rearRight.setInverted(true);
+        FRDrive.setInverted(true);
+        BRDrive.setInverted(true);
+
+        robotData.add("Front Left Motor", FLDrive);
+        robotData.add("Front Right Motor", FRDrive);
+        robotData.add("Back Left Motor", BLDrive);
+        robotData.add("Back Right Motor", BRDrive);
     }
 
     @Override
@@ -102,10 +108,10 @@ public class DriveSubsystem extends SubsystemBase {
      * Sets the front left drive MotorController to a voltage.
      */
     public void setDriveMotorControllersVolts(MecanumDriveMotorVoltages volts) {
-        frontLeft.setVoltage(volts.frontLeftVoltage);
-        frontRight.setVoltage(volts.frontRightVoltage);
-        rearLeft.setVoltage(volts.rearLeftVoltage);
-        rearRight.setVoltage(volts.rearRightVoltage);
+        FLDrive.setVoltage(volts.frontLeftVoltage);
+        FRDrive.setVoltage(volts.frontRightVoltage);
+        BLDrive.setVoltage(volts.rearLeftVoltage);
+        BRDrive.setVoltage(volts.rearRightVoltage);
     }
 
     /**
@@ -114,8 +120,8 @@ public class DriveSubsystem extends SubsystemBase {
     public void resetEncoders() {
         frontLeftEncoder.setPosition(0);
         frontRightEncoder.setPosition(0);
-        rearLeftEncoder.setPosition(0);
-        rearRightEncoder.setPosition(0);
+        backLeftEncoder.setPosition(0);
+        backRightEncoder.setPosition(0);
     }
 
     /**
@@ -132,8 +138,8 @@ public class DriveSubsystem extends SubsystemBase {
      *
      * @return the rear left drive encoder
      */
-    public RelativeEncoder getRearLeftEncoder() {
-        return rearLeftEncoder;
+    public RelativeEncoder getBackLeftEncoder() {
+        return backLeftEncoder;
     }
 
     /**
@@ -150,8 +156,8 @@ public class DriveSubsystem extends SubsystemBase {
      *
      * @return the rear right encoder
      */
-    public RelativeEncoder getRearRightEncoder() {
-        return rearRightEncoder;
+    public RelativeEncoder getBackRightEncoder() {
+        return backRightEncoder;
     }
 
     /**
@@ -163,8 +169,8 @@ public class DriveSubsystem extends SubsystemBase {
         return new MecanumDriveWheelSpeeds(
                 frontLeftEncoder.getVelocity(),
                 frontRightEncoder.getVelocity(),
-                rearLeftEncoder.getVelocity(),
-                rearRightEncoder.getVelocity());
+                backLeftEncoder.getVelocity(),
+                backRightEncoder.getVelocity());
     }
 
     /**
@@ -175,9 +181,9 @@ public class DriveSubsystem extends SubsystemBase {
     public MecanumDriveWheelPositions getCurrentWheelDistances() {
         return new MecanumDriveWheelPositions(
                 frontLeftEncoder.getPosition(),
-                rearLeftEncoder.getPosition(),
+                backLeftEncoder.getPosition(),
                 frontRightEncoder.getPosition(),
-                rearRightEncoder.getPosition());
+                backRightEncoder.getPosition());
     }
 
     /**
