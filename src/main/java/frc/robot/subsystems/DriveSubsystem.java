@@ -4,8 +4,8 @@
 
 package frc.robot.subsystems;
 
+import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.MecanumDriveMotorVoltages;
@@ -14,7 +14,6 @@ import edu.wpi.first.math.kinematics.MecanumDriveWheelPositions;
 import edu.wpi.first.math.kinematics.MecanumDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
-import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants;
 
@@ -33,7 +32,7 @@ public class DriveSubsystem extends SubsystemBase {
 
 
     // The gyro sensor
-    private final Gyro gyro = new ADXRS450_Gyro();
+    private final ADXRS450_Gyro gyro = new ADXRS450_Gyro();
 
     // Odometry class for tracking robot pose
     MecanumDriveOdometry odometry =
