@@ -49,17 +49,38 @@ public class RobotContainer {
      * The container for the robot. Contains subsystems, OI devices, and commands.
      */
     public RobotContainer() {
-        // Configure the button bindings
         configureButtonBindings();
 
-        // Configure default commands
-        // Set the default drive command to drive with single joystick on field-oriented chassis movement, with shooter controlled by a second joystick's trigger.
-        robotDrive.setDefaultCommand(
-                // A split-stick arcade command, with forward/backward controlled by the left
-                // hand, and turning controlled by the right.
-                new RunCommand(() -> robotDrive.drive(driverJoystick.getY(), driverJoystick.getX(), driverJoystick.getTwist(), true), robotDrive));
+        robotDrive.setDefaultCommand(new RunCommand(() -> {
+            // Scale throttle from [1.0, -1.0] to [0.0, 1.0].
+            double throttle = driverJoystick.getThrottle() / -2 + 0.5;
+
+            // The y input is inverted on the controllers.
+            // The reason that the x and y inputs seem to be flipped is that
+            // the robot uses a different coordinate system.
+            double xInput = applyDeadzone(-driverJoystick.getY(), 0.1) * throttle;
+            double yInput = applyDeadzone(driverJoystick.getX(), 0.1) * throttle;
+            double turnInput = applyDeadzone(driverJoystick.getTwist(), 0.1) * throttle;
+
+            robotDrive.drive(xInput, yInput, turnInput, true);
+        }, robotDrive));
 
         robotIntake.setDefaultCommand(new RunCommand(() -> robotIntake.arm(driverJoystick2.getY()), robotIntake));
+    }
+
+    private double applyDeadzone(double input, double deadzone) {
+        if (input > deadzone) return (input - deadzone) / (1 - deadzone);
+        else if (input < -deadzone) return (input + deadzone) / (1 - deadzone);
+        else return 0.0;
+    }
+
+    private double[] getInputs() {
+        double throttle = driverJoystick.getThrottle() / -2 + 0.5;
+        return new double[]{
+                applyDeadzone(-driverJoystick.getY(), 0.1) * throttle,
+                applyDeadzone(driverJoystick.getX(), 0.1) * throttle,
+                applyDeadzone(driverJoystick.getTwist(), 0.1) * throttle,
+        };
     }
 
     /**
