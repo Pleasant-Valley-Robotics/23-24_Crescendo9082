@@ -56,7 +56,8 @@ public class DriveSubsystem extends SubsystemBase {
         // gearbox is constructed, you might have to invert the left side instead.
         FRDrive.setInverted(true);
         BRDrive.setInverted(true);
-
+        BLDrive.setInverted(true);
+        
         robotData.add(drive);
         robotData.add(gyro);
     }
