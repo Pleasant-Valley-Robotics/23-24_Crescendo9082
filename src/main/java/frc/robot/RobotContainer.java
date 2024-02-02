@@ -16,6 +16,8 @@ import frc.robot.subsystems.HangingSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 
+import static frc.robot.commands.ShootAmpOff.turnRobotShooterOff;
+
 /*
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
@@ -68,7 +70,7 @@ public class RobotContainer {
         // Drive at half speed when the 1 button is held.
         new JoystickButton(driverJoystick, 1)
                 .onTrue(new InstantCommand(() -> robotShooter.shootVoltageAmp(12), robotShooter))
-                .onFalse(new InstantCommand(() -> robotShooter.shootVoltageAmp(0)));
+                .onFalse(turnRobotShooterOff(robotShooter));
         // Shoot when the 2 button is held.
         new JoystickButton(driverJoystick, 2)
                 .onTrue(new InstantCommand(() -> robotShooter.shootVoltageSpeaker(12), robotShooter))
