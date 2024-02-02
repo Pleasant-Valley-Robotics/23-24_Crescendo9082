@@ -89,4 +89,85 @@ public final class Constants {
                 new TrapezoidProfile.Constraints(
                         MAX_ANGULAR_SPEED_RADIANS_PER_SECOND, MAX_ANGULAR_SPEED_RADIANS_PER_SECOND_SQUARED);
     }
+    public static final class AprilTagCords {
+        public static final double aprilTag1X = 593.68; // Cords for april tag 1's X measured in inches
+        public static final double aprilTag1Y = 9.68; // Cords for april tag 1's Y measured in inches
+        public static final double aprilTag1Z = 53.38; // Cords for april tag 1's Z measured in inches
+        public static final double aprilTag1Rotation = 120; // Cords for april tag 1's Rotation measured in degrees
+
+        public static final double aprilTag2X = 637.21; // Cords for april tag 2's X measured in inches
+        public static final double aprilTag2Y = 34.79; // Cords for april tag 2's Y measured in inches
+        public static final double aprilTag2Z = 53.38; // Cords for april tag 2's Z measured in inches
+        public static final double aprilTag2Rotation = 120; // Cords for april tag 2's Rotation measured in degrees
+
+        public static final double aprilTag3X = 652.73; // Cords for april tag 3's X measured in inches
+        public static final double aprilTag3Y = 196.17; // Cords for april tag 3's Y measured in inches
+        public static final double aprilTag3Z = 57.13; // Cords for april tag 3's Z measured in inches
+        public static final double aprilTag3Rotation = 180; // Cords for april tag 3's Rotation measured in degrees
+
+        public static final double aprilTag4X = 652.73; // Cords for april tag 4's X measured in inches
+        public static final double aprilTag4Y = 218.42; // Cords for april tag 4's Y measured in inches
+        public static final double aprilTag4Z = 57.13; // Cords for april tag 4's Z measured in inches
+        public static final double aprilTag4Rotation = 180; // Cords for april tag 4's Rotation measured in degrees
+
+        public static final double aprilTag5X = 578.77; // Cords for april tag 5's X measured in inches
+        public static final double aprilTag5Y = 323.00; // Cords for april tag 5's Y measured in inches
+        public static final double aprilTag5Z = 53.38; // Cords for april tag 5's Z measured in inches
+        public static final double aprilTag5Rotation = 270; // Cords for april tag 5's Rotation measured in degrees
+
+        public static final double aprilTag6X = 72.5; // Cords for april tag 6's X measured in inches
+        public static final double aprilTag6Y = 323.00; // Cords for april tag 6's Y measured in inches
+        public static final double aprilTag6Z = 53.38; // Cords for april tag 6's Z measured in inches
+        public static final double aprilTag6Rotation = 270; // Cords for april tag 6's Rotation measured in degrees
+
+        public static final double aprilTag7X = -1.50; // Cords for april tag 7's X measured in inches
+        public static final double aprilTag7Y = 218.42; // Cords for april tag 7's Y measured in inches
+        public static final double aprilTag7Z = 57.13; // Cords for april tag 7's Z measured in inches
+        public static final double aprilTag7Rotation = 0; // Cords for april tag 7's Rotation measured in degrees
+
+        public static final double aprilTag8X = -1.50; // Cords for april tag 8's X measured in inches
+        public static final double aprilTag8Y = 196.17; // Cords for april tag 8's Y measured in inches
+        public static final double aprilTag8Z = 57.13; // Cords for april tag 8's Z measured in inches
+        public static final double aprilTag8Rotation = 0; // Cords for april tag 8's Rotation measured in degrees
+
+        public static final double aprilTag9X = 14.02; // Cords for april tag 9's X measured in inches
+        public static final double aprilTag9Y = 34.79; // Cords for april tag 9's Y measured in inches
+        public static final double aprilTag9Z = 53.38; // Cords for april tag 9's Z measured in inches
+        public static final double aprilTag9Rotation = 60; // Cords for april tag 9's Rotation measured in degrees
+
+        public static final double aprilTag10X = 57.54; // Cords for april tag 10's X measured in inches
+        public static final double aprilTag10Y = 9.68; // Cords for april tag 10's Y measured in inches
+        public static final double aprilTag10Z = 53.38; // Cords for april tag 10's Z measured in inches
+        public static final double aprilTag10Rotation = 60; // Cords for april tag 10's Rotation measured in degrees
+
+        public static final double aprilTag11X = 468.69; // Cords for april tag 11's X measured in inches
+        public static final double aprilTag11Y = 146.19; // Cords for april tag 11's Y measured in inches
+        public static final double aprilTag11Z = 52.00; // Cords for april tag 11's Z measured in inches
+        public static final double aprilTag11Rotation = 300; // Cords for april tag 11's Rotation measured in degrees
+
+        public static final double aprilTag12X = 468.69; // Cords for april tag 12's X measured in inches
+        public static final double aprilTag12Y = 177.10; // Cords for april tag 12's Y measured in inches
+        public static final double aprilTag12Z = 52.00; // Cords for april tag 12's Z measured in inches
+        public static final double aprilTag12Rotation = 60; // Cords for april tag 12's Rotation measured in degrees
+
+        public static final double aprilTag13X = 441.74; // Cords for april tag 13's X measured in inches
+        public static final double aprilTag13Y = 161.62; // Cords for april tag 13's Y measured in inches
+        public static final double aprilTag13Z = 52.00; // Cords for april tag 13's Z measured in inches
+        public static final double aprilTag13Rotation = 180; // Cords for april tag 13's Rotation measured in degrees
+
+        public static final double aprilTag14X = 209.48; // Cords for april tag 14's X measured in inches
+        public static final double aprilTag14Y = 161.62; // Cords for april tag 14's Y measured in inches
+        public static final double aprilTag14Z = 52.00; // Cords for april tag 14's Z measured in inches
+        public static final double aprilTag14Rotation = 0; // Cords for april tag 14's Rotation measured in degrees
+
+        public static final double aprilTag15X = 182.73; // Cords for april tag 15's X measured in inches
+        public static final double aprilTag15Y = 177.10; // Cords for april tag 15's Y measured in inches
+        public static final double aprilTag15Z = 52.00; // Cords for april tag 15's Z measured in inches
+        public static final double aprilTag15Rotation = 120; // Cords for april tag 15's Rotation measured in degrees
+
+        public static final double aprilTag16X = 182.73; // Cords for april tag 16's X measured in inches
+        public static final double aprilTag16Y = 146.19; // Cords for april tag 16's Y measured in inches
+        public static final double aprilTag16Z = 52.00; // Cords for april tag 16's Z measured in inches
+        public static final double aprilTag16Rotation = 240; // Cords for april tag 16's Rotation measured in degrees
+    }
 }
