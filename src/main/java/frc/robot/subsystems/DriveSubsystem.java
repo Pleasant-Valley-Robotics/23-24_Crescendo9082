@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
@@ -32,7 +33,7 @@ public class DriveSubsystem extends SubsystemBase {
 
 
     // The gyro sensor
-    private final ADXRS450_Gyro gyro = new ADXRS450_Gyro();
+    private final AHRS gyro = new AHRS();
 
     // Odometry class for tracking robot pose
     MecanumDriveOdometry odometry =
@@ -56,12 +57,8 @@ public class DriveSubsystem extends SubsystemBase {
         FRDrive.setInverted(true);
         BRDrive.setInverted(true);
 
-        robotData.add("Front Left Motor", FLDrive);
-        robotData.add("Front Right Motor", FRDrive);
-        robotData.add("Back Left Motor", BLDrive);
-        robotData.add("Back Right Motor", BRDrive);
-
-        robotData.add("Gyro", gyro);
+        robotData.add(drive);
+        robotData.add(gyro);
     }
 
     @Override
