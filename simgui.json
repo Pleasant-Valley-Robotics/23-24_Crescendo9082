@@ -1,17 +1,10 @@
 {
-  "HALProvider": {
-    "Other Devices": {
-      "SPARK MAX [0]": {
-        "header": {
-          "open": true
-        }
-      }
-    }
-  },
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo",
-      "/Shuffleboard/Robot Data/Gyro": "Gyro"
+      "/Shuffleboard/Robot Data/Gyro": "Gyro",
+      "/Shuffleboard/Robot Data/MecanumDrive[1]": "MecanumDrive",
+      "/Shuffleboard/Robot Data/navX-Sensor[4]": "Gyro"
     }
   },
   "NetworkTables Info": {
