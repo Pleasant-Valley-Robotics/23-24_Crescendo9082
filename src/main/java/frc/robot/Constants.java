@@ -20,19 +20,19 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile;
 public final class Constants {
     public static final class DriveConstants {
         //Motor Controller Ports
-        public static final int FRONT_LEFT_MOTOR_PORT = 0;
-        public static final int FRONT_RIGHT_MOTOR_PORT = 1;
-        public static final int REAR_LEFT_MOTOR_PORT = 2;
-        public static final int REAR_RIGHT_MOTOR_PORT = 3;
-        public static final int INTAKE_FEED_MOTOR_PORT = 4;
-        public static final int INTAKE_ARM_MOTOR_PORT = 5;
-        public static final int LEFT_HANGING_MOTOR_PORT = 6;
-        public static final int RIGHT_HANGING_MOTOR_PORT = 7;
-        public static final int UPPER_LEFT_SHOOTER_MOTOR_PORT = 8;
-        public static final int LOWER_LEFT_SHOOTER_MOTOR_PORT = 9;
-        public static final int UPPER_RIGHT_SHOOTER_MOTOR_PORT = 10;
-        public static final int LOWER_RIGHT_SHOOTER_MOTOR_PORT = 11;
-        public static final int SHOOTER_PIVOT_PORT = 12;
+        public static final int FRONT_LEFT_MOTOR_PORT = 5;
+        public static final int FRONT_RIGHT_MOTOR_PORT = 2;
+        public static final int REAR_LEFT_MOTOR_PORT = 3;
+        public static final int REAR_RIGHT_MOTOR_PORT = 4;
+        public static final int INTAKE_FEED_MOTOR_PORT = 14;
+        public static final int INTAKE_ARM_MOTOR_PORT = 6;
+        public static final int LEFT_HANGING_MOTOR_PORT = 7;
+        public static final int RIGHT_HANGING_MOTOR_PORT = 8;
+        public static final int UPPER_LEFT_SHOOTER_MOTOR_PORT = 9;
+        public static final int LOWER_LEFT_SHOOTER_MOTOR_PORT = 10;
+        public static final int UPPER_RIGHT_SHOOTER_MOTOR_PORT = 11;
+        public static final int LOWER_RIGHT_SHOOTER_MOTOR_PORT = 12;
+        public static final int SHOOTER_PIVOT_PORT = 13;
 
         // Distance between centers of right and left wheels on robot
         public static final double TRACK_WIDTH = 0.5;
