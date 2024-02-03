@@ -35,10 +35,10 @@ public final class Constants {
         public static final int SHOOTER_PIVOT_PORT = 13;
 
         // Distance between centers of right and left wheels on robot
-        public static final double TRACK_WIDTH = 0.5;
+        public static final double TRACK_WIDTH = 23*.0254;
 
-        // Distance between centers of front and back wheels on robot
-        public static final double WHEEL_BASE = 0.7;
+        // Distance between centers of front and back wheels on robzot
+        public static final double WHEEL_BASE = 20.25*.0254;
 
         //Mecanum Drive Kinematics Constant Calculations
         public static final MecanumDriveKinematics DRIVE_KINEMATICS =
@@ -54,7 +54,7 @@ public final class Constants {
         public static final double DRIVE_GEAR_REDUCTION = 5.95; //https://www.andymark.com/products/toughbox-micro-classic
         public static final double ENCODER_DISTANCE_PER_PULSE =
                 // Assumes the encoders are directly mounted on the wheel shafts
-                (WHEEL_DIAMETER_METERS * Math.PI) / ((double) ENCODER_CPR * DRIVE_GEAR_REDUCTION);
+                (WHEEL_DIAMETER_METERS * Math.PI) / ( DRIVE_GEAR_REDUCTION);
         // These are example values only - DO NOT USE THESE FOR YOUR OWN ROBOT!
         // These characterization values MUST be determined either experimentally or theoretically
         // for *your* robot's drive.
@@ -68,13 +68,14 @@ public final class Constants {
         public static final double P_FRONT_RIGHT_VEL = 0.5;
         public static final double P_REAR_RIGHT_VEL = 0.5;
     }
-
     public static final class OIConstants {
         public static final int DRIVER_CONTROLLER_PORT = 0;
         public static final int DRIVER_CONTROLLER_PORT_2 = 1;
     }
 
     public static final class AutoConstants {
+        public static final double kAutoDriveDistanceInches = 12;
+        public static final double kAutoDriveSpeed = .1;
         public static final double MAX_SPEED_METERS_PER_SECOND = 3;
         public static final double MAX_ACCELERATION_METERS_PER_SECOND_SQUARED = 3;
         public static final double MAX_ANGULAR_SPEED_RADIANS_PER_SECOND = Math.PI;

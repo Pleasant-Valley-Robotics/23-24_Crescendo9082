@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.SparkRelativeEncoder.Type;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -15,7 +16,10 @@ import edu.wpi.first.math.kinematics.MecanumDriveWheelPositions;
 import edu.wpi.first.math.kinematics.MecanumDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.Constants.DriveConstants;
 
 import static frc.robot.ShuffleboardContainer.robotData;
@@ -25,10 +29,10 @@ public class DriveSubsystem extends SubsystemBase {
     private final CANSparkMax FRDrive = new CANSparkMax(DriveConstants.FRONT_RIGHT_MOTOR_PORT, MotorType.kBrushless);
     private final CANSparkMax BLDrive = new CANSparkMax(DriveConstants.REAR_LEFT_MOTOR_PORT, MotorType.kBrushless);
     private final CANSparkMax BRDrive = new CANSparkMax(DriveConstants.REAR_RIGHT_MOTOR_PORT, MotorType.kBrushless);
-    private final RelativeEncoder frontLeftEncoder = FLDrive.getEncoder();
-    private final RelativeEncoder frontRightEncoder = FRDrive.getEncoder();
-    private final RelativeEncoder backLeftEncoder = BLDrive.getEncoder();
-    private final RelativeEncoder backRightEncoder = BRDrive.getEncoder();
+    private final RelativeEncoder frontLeftEncoder = FLDrive.getEncoder(Type.kHallSensor, Constants.DriveConstants.ENCODER_CPR);
+    private final RelativeEncoder frontRightEncoder = FRDrive.getEncoder(Type.kHallSensor, Constants.DriveConstants.ENCODER_CPR);
+    private final RelativeEncoder backLeftEncoder = BLDrive.getEncoder(Type.kHallSensor, Constants.DriveConstants.ENCODER_CPR);
+    private final RelativeEncoder backRightEncoder = BRDrive.getEncoder(Type.kHallSensor, Constants.DriveConstants.ENCODER_CPR);
     private final MecanumDrive drive = new MecanumDrive(FLDrive, BLDrive, FRDrive, BRDrive);
 
 
@@ -56,7 +60,7 @@ public class DriveSubsystem extends SubsystemBase {
         // gearbox is constructed, you might have to invert the left side instead.
         FRDrive.setInverted(true);
         BRDrive.setInverted(true);
-        BLDrive.setInverted(true);
+       // BLDrive.setInverted(true);
         
         robotData.add(drive);
         robotData.add(gyro);
@@ -184,7 +188,10 @@ public class DriveSubsystem extends SubsystemBase {
                 frontRightEncoder.getPosition(),
                 backRightEncoder.getPosition());
     }
-
+    public double getAverageEncoders() {
+        double AverageEncoders = ((Math.abs(frontLeftEncoder.getPosition()) + Math.abs(backLeftEncoder.getPosition()) + Math.abs(frontRightEncoder.getPosition()) + Math.abs(backRightEncoder.getPosition()))/4);
+        return AverageEncoders;
+    }
     /**
      * Sets the max output of the drive. Useful for scaling the drive to drive more slowly.
      *
