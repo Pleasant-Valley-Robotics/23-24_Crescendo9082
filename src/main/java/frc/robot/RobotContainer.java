@@ -40,7 +40,7 @@ public class RobotContainer {
         configureTeleOpCommands();
     }
 
-    private double applyDeadzone(double input, double deadzone) {
+    public double applyDeadzone(double input, double deadzone) {
         if (input > deadzone) return (input - deadzone) / (1 - deadzone);
         else if (input < -deadzone) return (input + deadzone) / (1 - deadzone);
         else return 0.0;
