@@ -15,7 +15,8 @@ import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.HangingSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
-
+import frc.robot.commands.HangOff2;
+import frc.robot.commands.DriveDistance;
 /*
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
@@ -54,11 +55,11 @@ public class RobotContainer {
             // The y input is inverted on the controllers.
             // The reason that the x and y inputs seem to be flipped is that
             // the robot uses a different coordinate system.
-            double xInput = applyDeadzone(-driverJoystick.getY(), 0.1) * throttle;
-            double yInput = applyDeadzone(driverJoystick.getX(), 0.1) * throttle;
-            double turnInput = applyDeadzone(driverJoystick.getTwist(), 0.1) * throttle;
+            double xInput = applyDeadzone(-driverJoystick.getY(), 0.15) * throttle;
+            double yInput = applyDeadzone(driverJoystick.getX(), 0.15) * throttle;
+            double turnInput = applyDeadzone(driverJoystick.getTwist(), 0.15) * throttle;
 
-            robotDrive.drive(xInput, yInput, turnInput, true);
+            robotDrive.drive(xInput, yInput, turnInput, false);
         }, robotDrive));
 
         robotIntake.setDefaultCommand(new RunCommand(() -> robotIntake.arm(driverJoystick2.getY()), robotIntake));
@@ -75,8 +76,7 @@ public class RobotContainer {
                 .onFalse(new InstantCommand(() -> robotShooter.shootVoltageSpeaker(0)));
         // Hang when the 3 button is held.
         new JoystickButton(driverJoystick, 3)
-                .onTrue(new InstantCommand(() -> robotHanging.hangVoltage(12), robotHanging))
-                .onFalse(new InstantCommand(() -> robotHanging.hangVoltage(0)));
+                .onTrue(new HangOff2(1, robotHanging));
         // Intake Feed when the 4 button is held.
         new JoystickButton(driverJoystick, 4)
                 .onTrue(new InstantCommand(() -> robotIntake.feedVoltage(12), robotIntake))
@@ -89,6 +89,6 @@ public class RobotContainer {
      * @return the command to run in autonomous
      */
     public Command getAutonomousCommand() {
-        return Autos.simpleAuto(robotDrive);
+        return new DriveDistance(1,.1, robotDrive);
     }
 }
