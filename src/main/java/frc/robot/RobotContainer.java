@@ -10,12 +10,14 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.OIConstants;
-import frc.robot.commands.Autos;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.HangingSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
-import frc.robot.commands.HangOff2;
+import frc.robot.commands.Hang;
+import frc.robot.commands.ShootAmp;
+import frc.robot.commands.ShootSpeaker;
+import frc.robot.commands.RobotIntake;
 import frc.robot.commands.DriveDistance;
 /*
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -68,19 +70,16 @@ public class RobotContainer {
     private void configureButtonBindings() {
         // Drive at half speed when the 1 button is held.
         new JoystickButton(driverJoystick, 1)
-                .onTrue(new InstantCommand(() -> robotShooter.shootVoltageAmp(12), robotShooter))
-                .onFalse(new InstantCommand(() -> robotShooter.shootVoltageAmp(0)));
+                .onTrue(new ShootAmp(1, robotShooter));
         // Shoot when the 2 button is held.
         new JoystickButton(driverJoystick, 2)
-                .onTrue(new InstantCommand(() -> robotShooter.shootVoltageSpeaker(12), robotShooter))
-                .onFalse(new InstantCommand(() -> robotShooter.shootVoltageSpeaker(0)));
+                .onTrue(new ShootSpeaker(1, robotShooter));
         // Hang when the 3 button is held.
         new JoystickButton(driverJoystick, 3)
-                .onTrue(new HangOff2(1, robotHanging));
+                .onTrue(new Hang(1, robotHanging));
         // Intake Feed when the 4 button is held.
         new JoystickButton(driverJoystick, 4)
-                .onTrue(new InstantCommand(() -> robotIntake.feedVoltage(12), robotIntake))
-                .onFalse(new InstantCommand(() -> robotIntake.feedVoltage(0), robotIntake));
+                .onTrue(new RobotIntake(1, robotIntake));
     }
 
     /**

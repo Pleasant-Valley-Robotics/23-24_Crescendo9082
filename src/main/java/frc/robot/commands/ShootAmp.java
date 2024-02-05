@@ -1,18 +1,16 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Subsystem;
-import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 
-import java.util.Set;
 
-public class DriveDistanceExampleCommand extends Command {
-    private final DriveSubsystem driveSubsystem;
-    private final Set<Subsystem> subsystems;
+public class ShootAmp extends Command {
+    private ShooterSubsystem shooterSubsystem;
 
-    public DriveDistanceExampleCommand(DriveSubsystem driveSubsystem) {
-        this.driveSubsystem = driveSubsystem;
-        this.subsystems = Set.of(this.driveSubsystem);
+    public ShootAmp(int power, ShooterSubsystem shooterSubsystem) {
+        // each subsystem used by the command must be passed into the
+        // addRequirements() method (which takes a vararg of Subsystem)
+        addRequirements(shooterSubsystem);
     }
 
     /**
@@ -20,7 +18,7 @@ public class DriveDistanceExampleCommand extends Command {
      */
     @Override
     public void initialize() {
-
+        shooterSubsystem.shootVoltageAmp(0);
     }
 
     /**
@@ -29,7 +27,7 @@ public class DriveDistanceExampleCommand extends Command {
      */
     @Override
     public void execute() {
-
+        shooterSubsystem.shootVoltageAmp(12);
     }
 
     /**
@@ -63,23 +61,5 @@ public class DriveDistanceExampleCommand extends Command {
     @Override
     public void end(boolean interrupted) {
 
-    }
-
-    /**
-     * <p>
-     * Specifies the set of subsystems used by this command.  Two commands cannot use the same
-     * subsystem at the same time.  If the command is scheduled as interruptible and another
-     * command is scheduled that shares a requirement, the command will be interrupted.  Else,
-     * the command will not be scheduled. If no subsystems are required, return an empty set.
-     * </p><p>
-     * Note: it is recommended that user implementations contain the requirements as a field,
-     * and return that field here, rather than allocating a new set every time this is called.
-     * </p>
-     *
-     * @return the set of subsystems that are required
-     */
-    @Override
-    public Set<Subsystem> getRequirements() {
-        return this.subsystems;
     }
 }

@@ -1,18 +1,14 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Subsystem;
-import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.HangingSubsystem;
 
-import java.util.Set;
+public class Hang extends Command {
 
-public class DriveDistanceExampleCommand extends Command {
-    private final DriveSubsystem driveSubsystem;
-    private final Set<Subsystem> subsystems;
+    private HangingSubsystem robotHanging;
 
-    public DriveDistanceExampleCommand(DriveSubsystem driveSubsystem) {
-        this.driveSubsystem = driveSubsystem;
-        this.subsystems = Set.of(this.driveSubsystem);
+    public Hang(int power, HangingSubsystem robotHanging) {
+        addRequirements(robotHanging);
     }
 
     /**
@@ -20,7 +16,7 @@ public class DriveDistanceExampleCommand extends Command {
      */
     @Override
     public void initialize() {
-
+        robotHanging.hangVoltage(0);
     }
 
     /**
@@ -29,7 +25,7 @@ public class DriveDistanceExampleCommand extends Command {
      */
     @Override
     public void execute() {
-
+        robotHanging.hangVoltage(12);
     }
 
     /**
@@ -78,8 +74,8 @@ public class DriveDistanceExampleCommand extends Command {
      *
      * @return the set of subsystems that are required
      */
-    @Override
-    public Set<Subsystem> getRequirements() {
-        return this.subsystems;
-    }
+    //@Override
+    //public Set<Subsystem> getRequirements() {
+        //return this.subsystems;
+    //}
 }
