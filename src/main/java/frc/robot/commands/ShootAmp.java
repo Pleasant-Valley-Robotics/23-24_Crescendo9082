@@ -6,8 +6,9 @@ import frc.robot.subsystems.ShooterSubsystem;
 
 public class ShootAmp extends Command {
     private ShooterSubsystem shooterSubsystem;
-
-    public ShootAmp(int power, ShooterSubsystem shooterSubsystem) {
+    private double m_voltage;
+    public ShootAmp(double voltage, ShooterSubsystem shooterSubsystem) {
+        m_voltage = voltage;
         // each subsystem used by the command must be passed into the
         // addRequirements() method (which takes a vararg of Subsystem)
         addRequirements(shooterSubsystem);
@@ -27,7 +28,7 @@ public class ShootAmp extends Command {
      */
     @Override
     public void execute() {
-        shooterSubsystem.shootVoltageAmp(12);
+        shooterSubsystem.shootVoltageAmp(m_voltage);
     }
 
     /**
@@ -60,6 +61,6 @@ public class ShootAmp extends Command {
      */
     @Override
     public void end(boolean interrupted) {
-
+        shooterSubsystem.shootVoltageAmp(0);
     }
 }

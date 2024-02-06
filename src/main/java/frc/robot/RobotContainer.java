@@ -6,7 +6,6 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.OIConstants;
@@ -70,16 +69,16 @@ public class RobotContainer {
     private void configureButtonBindings() {
         // Drive at half speed when the 1 button is held.
         new JoystickButton(driverJoystick, 1)
-                .onTrue(new ShootAmp(1, robotShooter));
+                .onTrue(new ShootAmp(12, robotShooter));
         // Shoot when the 2 button is held.
         new JoystickButton(driverJoystick, 2)
-                .onTrue(new ShootSpeaker(1, robotShooter));
+                .onTrue(new ShootSpeaker(12, robotShooter));
         // Hang when the 3 button is held.
         new JoystickButton(driverJoystick, 3)
-                .onTrue(new Hang(1, robotHanging));
+                .onTrue(new Hang(12, robotHanging));
         // Intake Feed when the 4 button is held.
         new JoystickButton(driverJoystick, 4)
-                .onTrue(new RobotIntake(1, robotIntake));
+                .onTrue(new RobotIntake(12, robotIntake));
     }
 
     /**

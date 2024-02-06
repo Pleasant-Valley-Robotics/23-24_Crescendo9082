@@ -6,8 +6,9 @@ import frc.robot.subsystems.IntakeSubsystem;
 
 public class RobotIntake extends Command {
     private IntakeSubsystem intakeSubsystem;
-
-    public RobotIntake(int power, IntakeSubsystem intakeSubsystem) {
+    private double m_voltage;
+    public RobotIntake(double voltage, IntakeSubsystem intakeSubsystem) {
+        m_voltage = voltage;
         // each subsystem used by the command must be passed into the
         // addRequirements() method (which takes a vararg of Subsystem)
         addRequirements(intakeSubsystem);
@@ -27,7 +28,7 @@ public class RobotIntake extends Command {
      */
     @Override
     public void execute() {
-        intakeSubsystem.feedVoltage(12);
+        intakeSubsystem.feedVoltage(m_voltage);
     }
 
     /**
@@ -60,6 +61,6 @@ public class RobotIntake extends Command {
      */
     @Override
     public void end(boolean interrupted) {
-
+        intakeSubsystem.feedVoltage(0);
     }
 }

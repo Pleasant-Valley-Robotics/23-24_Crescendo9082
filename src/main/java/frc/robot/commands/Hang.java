@@ -6,8 +6,11 @@ import frc.robot.subsystems.HangingSubsystem;
 public class Hang extends Command {
 
     private HangingSubsystem robotHanging;
-
-    public Hang(int power, HangingSubsystem robotHanging) {
+    private double m_voltage;
+    public Hang(double voltage, HangingSubsystem robotHanging) {
+        m_voltage = voltage;
+        // each subsystem used by the command must be passed into the
+        // addRequirements() method (which takes a vararg of Subsystem)
         addRequirements(robotHanging);
     }
 
@@ -25,7 +28,7 @@ public class Hang extends Command {
      */
     @Override
     public void execute() {
-        robotHanging.hangVoltage(12);
+        robotHanging.hangVoltage(m_voltage);
     }
 
     /**
@@ -58,7 +61,7 @@ public class Hang extends Command {
      */
     @Override
     public void end(boolean interrupted) {
-
+       robotHanging.hangVoltage(0);
     }
 
     /**

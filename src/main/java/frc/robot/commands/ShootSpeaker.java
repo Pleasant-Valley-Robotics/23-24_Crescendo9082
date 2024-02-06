@@ -6,8 +6,9 @@ import frc.robot.subsystems.ShooterSubsystem;
 
 public class ShootSpeaker extends Command {
     private ShooterSubsystem shooterSubsystem;
-
-    public ShootSpeaker(int power, ShooterSubsystem shooterSubsystem) {
+    private double m_voltage;
+    public ShootSpeaker(double voltage, ShooterSubsystem shooterSubsystem) {
+        m_voltage = voltage;
         // each subsystem used by the command must be passed into the
         // addRequirements() method (which takes a vararg of Subsystem)
         addRequirements(shooterSubsystem);
@@ -27,7 +28,7 @@ public class ShootSpeaker extends Command {
      */
     @Override
     public void execute() {
-        shooterSubsystem.shootVoltageSpeaker(12);
+        shooterSubsystem.shootVoltageSpeaker(m_voltage);
     }
 
     /**
@@ -60,6 +61,6 @@ public class ShootSpeaker extends Command {
      */
     @Override
     public void end(boolean interrupted) {
-
+        shooterSubsystem.shootVoltageSpeaker(0);
     }
 }
