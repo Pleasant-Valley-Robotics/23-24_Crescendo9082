@@ -8,6 +8,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.Constants.DriveConstants;
 
 public class ShooterSubsystem extends SubsystemBase {
@@ -21,6 +22,7 @@ public class ShooterSubsystem extends SubsystemBase {
     private final RelativeEncoder upperRightShooterEncoder = upperRightShooter.getEncoder();
     private final RelativeEncoder lowerRightShooterEncoder = lowerRightShooter.getEncoder();
 
+    private final RelativeEncoder shooterArmEncoder = shooterArm.getEncoder();
 
     /**
      * Creates a new DriveSubsystem.
@@ -39,8 +41,14 @@ public class ShooterSubsystem extends SubsystemBase {
     }
 
     public void shooterArmVoltage(double volts) {
-        shooterArm.setVoltage(volts);
-
+        //if bringing the arm down, it needs to be above the lower encoder limit.
+        if(shooterArmEncoder.getPosition() > Constants.ShooterConstants.lowerLimit && volts < 0) {
+            shooterArm.setVoltage(volts);
+        }
+        //if bringing the arm up, it needs to be below the upper encoder limit.
+        if(shooterArmEncoder.getPosition() < Constants.ShooterConstants.upperLimit && volts > 0){
+            shooterArm.setVoltage(volts);
+        }
     }
 
     /**

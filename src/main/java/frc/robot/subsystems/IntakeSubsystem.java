@@ -9,6 +9,7 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.Constants.IntakeConstants;
 
 public class IntakeSubsystem extends SubsystemBase {
     private final CANSparkMax intakeArm = new CANSparkMax(DriveConstants.INTAKE_FEED_MOTOR_PORT, MotorType.kBrushless);
@@ -72,7 +73,15 @@ public class IntakeSubsystem extends SubsystemBase {
      * Sets the intake arm MotorControllers to a voltage.
      */
     public void armVoltage(double volts) {
-        intakeFeed.setVoltage(volts);
+        //if bringing arm down, it needs to be above the lower encoder limit.
+        if(intakeArmEncoder.getPosition() > IntakeConstants.lowerLimit && volts < 0){
+            intakeArm.setVoltage(volts);
+        }
+
+        //if bringing arm up, it needs to be below the encoder limit.
+        if(intakeArmEncoder.getPosition() < IntakeConstants.upperLimit && volts > 0){
+            intakeArm.setVoltage(volts);
+        }
     }
 
     /**

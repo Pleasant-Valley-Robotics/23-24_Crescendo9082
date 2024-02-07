@@ -171,4 +171,14 @@ public final class Constants {
         public static final double aprilTag16Z = 52.00; // Cords for april tag 16's Z measured in inches
         public static final double aprilTag16Rotation = 240; // Cords for april tag 16's Rotation measured in degrees
     }
+
+    public static final class IntakeConstants{
+        public static final double lowerLimit = 0;
+        public static final double upperLimit = 100000;
+    }
+
+    public static final class ShooterConstants{
+        public static final double lowerLimit = 0;
+        public static final double upperLimit = 100000;
+    }
 }
