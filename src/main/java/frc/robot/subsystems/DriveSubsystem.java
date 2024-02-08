@@ -5,20 +5,28 @@
 package frc.robot.subsystems;
 
 import com.kauailabs.navx.frc.AHRS;
+import com.revrobotics.CANSparkBase;
 import com.revrobotics.CANSparkLowLevel.MotorType;
-import com.revrobotics.SparkRelativeEncoder.Type;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkRelativeEncoder.Type;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.MecanumDriveMotorVoltages;
 import edu.wpi.first.math.kinematics.MecanumDriveOdometry;
 import edu.wpi.first.math.kinematics.MecanumDriveWheelPositions;
 import edu.wpi.first.math.kinematics.MecanumDriveWheelSpeeds;
+import edu.wpi.first.units.Distance;
+import edu.wpi.first.units.MutableMeasure;
+import edu.wpi.first.units.Velocity;
+import edu.wpi.first.units.Voltage;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.Constants;
 import frc.robot.Constants.DriveConstants;
 
+import static edu.wpi.first.units.Units.*;
 import static frc.robot.ShuffleboardContainer.robotData;
 
 public class DriveSubsystem extends SubsystemBase {
@@ -37,11 +45,7 @@ public class DriveSubsystem extends SubsystemBase {
     private final AHRS gyro = new AHRS();
 
     // Odometry class for tracking robot pose
-    MecanumDriveOdometry odometry =
-            new MecanumDriveOdometry(
-                    DriveConstants.DRIVE_KINEMATICS,
-                    gyro.getRotation2d(),
-                    new MecanumDriveWheelPositions());
+    MecanumDriveOdometry odometry = new MecanumDriveOdometry(DriveConstants.DRIVE_KINEMATICS, gyro.getRotation2d(), new MecanumDriveWheelPositions());
 
     /**
      * Creates a new DriveSubsystem.
@@ -52,15 +56,43 @@ public class DriveSubsystem extends SubsystemBase {
         frontRightEncoder.setPositionConversionFactor(DriveConstants.ENCODER_DISTANCE_PER_PULSE);
         backLeftEncoder.setPositionConversionFactor(DriveConstants.ENCODER_DISTANCE_PER_PULSE);
         backRightEncoder.setPositionConversionFactor(DriveConstants.ENCODER_DISTANCE_PER_PULSE);
+
+        frontLeftEncoder.setVelocityConversionFactor(DriveConstants.ENCODER_DISTANCE_PER_PULSE_VEL);
+        frontRightEncoder.setVelocityConversionFactor(DriveConstants.ENCODER_DISTANCE_PER_PULSE_VEL);
+        backLeftEncoder.setVelocityConversionFactor(DriveConstants.ENCODER_DISTANCE_PER_PULSE_VEL);
+        backRightEncoder.setVelocityConversionFactor(DriveConstants.ENCODER_DISTANCE_PER_PULSE_VEL);
+
+        FLDrive.setIdleMode(CANSparkBase.IdleMode.kBrake);
+        FRDrive.setIdleMode(CANSparkBase.IdleMode.kBrake);
+        BLDrive.setIdleMode(CANSparkBase.IdleMode.kBrake);
+        BRDrive.setIdleMode(CANSparkBase.IdleMode.kBrake);
         // We need to invert one side of the drivetrain so that positive voltages
         // result in both sides moving forward. Depending on how your robot's
         // gearbox is constructed, you might have to invert the left side instead.
         FRDrive.setInverted(true);
         BRDrive.setInverted(true);
-       // BLDrive.setInverted(true);
-        
+        // BLDrive.setInverted(true);
+
         robotData.add(drive);
         robotData.add(gyro);
+        robotData.addDouble("robot x", () -> getPose().getX());
+        robotData.addDouble("robot y", () -> getPose().getY());
+        robotData.addDouble("robot rotation", () -> getPose().getRotation().getDegrees());
+
+//        robotData.addDouble("fl velocity", () -> getCurrentWheelSpeeds().frontLeftMetersPerSecond);
+//        robotData.addDouble("fr velocity", () -> getCurrentWheelSpeeds().frontRightMetersPerSecond);
+//        robotData.addDouble("bl velocity", () -> getCurrentWheelSpeeds().rearLeftMetersPerSecond);
+//        robotData.addDouble("br velocity", () -> getCurrentWheelSpeeds().rearRightMetersPerSecond);
+//        robotData.addDoubleArray("wheel voltages", () );
+    }
+
+    public MecanumDriveMotorVoltages getAppliedVoltages() {
+        return new MecanumDriveMotorVoltages(
+                FLDrive.getAppliedOutput(),
+                FRDrive.getAppliedOutput(),
+                BLDrive.getAppliedOutput(),
+                BRDrive.getAppliedOutput()
+        );
     }
 
     @Override
@@ -166,11 +198,7 @@ public class DriveSubsystem extends SubsystemBase {
      * @return the current wheel speeds in a MecanumDriveWheelSpeeds object.
      */
     public MecanumDriveWheelSpeeds getCurrentWheelSpeeds() {
-        return new MecanumDriveWheelSpeeds(
-                frontLeftEncoder.getVelocity(),
-                frontRightEncoder.getVelocity(),
-                backLeftEncoder.getVelocity(),
-                backRightEncoder.getVelocity());
+        return new MecanumDriveWheelSpeeds(frontLeftEncoder.getVelocity(), frontRightEncoder.getVelocity(), backLeftEncoder.getVelocity(), backRightEncoder.getVelocity());
     }
 
     /**
@@ -179,16 +207,14 @@ public class DriveSubsystem extends SubsystemBase {
      * @return the current wheel distance measurements in a MecanumDriveWheelPositions object.
      */
     public MecanumDriveWheelPositions getCurrentWheelDistances() {
-        return new MecanumDriveWheelPositions(
-                frontLeftEncoder.getPosition(),
-                backLeftEncoder.getPosition(),
-                frontRightEncoder.getPosition(),
-                backRightEncoder.getPosition());
+        return new MecanumDriveWheelPositions(frontLeftEncoder.getPosition(), backLeftEncoder.getPosition(), frontRightEncoder.getPosition(), backRightEncoder.getPosition());
     }
+
     public double getAverageEncoders() {
-        double AverageEncoders = ((Math.abs(frontLeftEncoder.getPosition()) + Math.abs(backLeftEncoder.getPosition()) + Math.abs(frontRightEncoder.getPosition()) + Math.abs(backRightEncoder.getPosition()))/4);
+        double AverageEncoders = ((Math.abs(frontLeftEncoder.getPosition()) + Math.abs(backLeftEncoder.getPosition()) + Math.abs(frontRightEncoder.getPosition()) + Math.abs(backRightEncoder.getPosition())) / 4);
         return AverageEncoders;
     }
+
     /**
      * Sets the max output of the drive. Useful for scaling the drive to drive more slowly.
      *
@@ -221,5 +247,27 @@ public class DriveSubsystem extends SubsystemBase {
      */
     public double getTurnRate() {
         return -gyro.getRate();
+    }
+
+    private final MutableMeasure<Voltage> volts = MutableMeasure.mutable(Volts.of(0));
+
+    private final MutableMeasure<Distance> distance = MutableMeasure.mutable(Meters.of(0));
+
+    private final MutableMeasure<Velocity<Distance>> velocity = MutableMeasure.mutable(MetersPerSecond.of(0));
+
+    private final SysIdRoutine routine = new SysIdRoutine(new SysIdRoutine.Config(), new SysIdRoutine.Mechanism(volts -> this.setDriveMotorControllersVolts(new MecanumDriveMotorVoltages(volts.in(Volts), volts.in(Volts), volts.in(Volts), volts.in(Volts))), log -> {
+        var voltages = this.getAppliedVoltages();
+        log.motor("FLDrive").voltage(volts.mut_replace(voltages.frontLeftVoltage, Volts)).linearPosition(distance.mut_replace(this.getFrontLeftEncoder().getPosition(), Meters)).linearVelocity(velocity.mut_replace(this.getFrontLeftEncoder().getVelocity(), MetersPerSecond));
+        log.motor("FRDrive").voltage(volts.mut_replace(voltages.frontRightVoltage, Volts)).linearPosition(distance.mut_replace(this.getFrontRightEncoder().getPosition(), Meters)).linearVelocity(velocity.mut_replace(this.getFrontRightEncoder().getVelocity(), MetersPerSecond));
+        log.motor("BLDrive").voltage(volts.mut_replace(voltages.rearLeftVoltage, Volts)).linearPosition(distance.mut_replace(this.getBackLeftEncoder().getPosition(), Meters)).linearVelocity(velocity.mut_replace(this.getBackLeftEncoder().getVelocity(), MetersPerSecond));
+        log.motor("BRDrive").voltage(volts.mut_replace(voltages.rearRightVoltage, Volts)).linearPosition(distance.mut_replace(this.getBackRightEncoder().getPosition(), Meters)).linearVelocity(velocity.mut_replace(this.getBackRightEncoder().getVelocity(), MetersPerSecond));
+    }, this));
+
+    public Command sysIdQuasistatic(SysIdRoutine.Direction direction) {
+        return routine.quasistatic(direction);
+    }
+
+    public Command sysIdDynamic(SysIdRoutine.Direction direction) {
+        return routine.dynamic(direction);
     }
 }

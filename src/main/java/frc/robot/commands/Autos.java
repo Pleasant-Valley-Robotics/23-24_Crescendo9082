@@ -13,27 +13,25 @@ import edu.wpi.first.wpilibj2.command.MecanumControllerCommand;
 import frc.robot.Constants;
 import frc.robot.subsystems.DriveSubsystem;
 
+import java.util.Collections;
 import java.util.List;
 
 public class Autos {
     public static Command simpleAuto(DriveSubsystem robotDrive) {
-        TrajectoryConfig config =
-                new TrajectoryConfig(
-                        Constants.AutoConstants.MAX_SPEED_METERS_PER_SECOND,
-                        Constants.AutoConstants.MAX_ACCELERATION_METERS_PER_SECOND_SQUARED)
-                        // Add kinematics to ensure max speed is actually obeyed
-                        .setKinematics(Constants.DriveConstants.DRIVE_KINEMATICS);
+        TrajectoryConfig config = new TrajectoryConfig(
+                Constants.AutoConstants.MAX_SPEED_METERS_PER_SECOND,
+                Constants.AutoConstants.MAX_ACCELERATION_METERS_PER_SECOND_SQUARED)
+                // Add kinematics to ensure max speed is actually obeyed
+                .setKinematics(Constants.DriveConstants.DRIVE_KINEMATICS);
 
         // An example trajectory to follow.  All units in meters.
-        Trajectory exampleTrajectory =
-                TrajectoryGenerator.generateTrajectory(
-                        // Start at the origin facing the +X direction
-                        new Pose2d(0, 0, new Rotation2d(0)),
-                        // Pass through these two interior waypoints, making an 's' curve path
-                        List.of(new Translation2d(1, 1), new Translation2d(2, -1)),
-                        // End 3 meters straight ahead of where we started, facing forward
-                        new Pose2d(3, 0, new Rotation2d(0)),
-                        config);
+        Trajectory exampleTrajectory = TrajectoryGenerator.generateTrajectory(
+                new Pose2d(0, 0, new Rotation2d(0)),
+                List.of(new Translation2d(1, 0)),
+//                        List.of(new Translation2d(1, 1), new Translation2d(2, -1)),
+                // End 3 meters straight ahead of where we started, facing forward
+                new Pose2d(2, 1, new Rotation2d(0)),
+                config);
 
         var mecanumCommand = new MecanumControllerCommand(
                 exampleTrajectory,
