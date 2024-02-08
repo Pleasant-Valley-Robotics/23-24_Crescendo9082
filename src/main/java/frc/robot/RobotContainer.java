@@ -8,16 +8,15 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.Constants.OIConstants;
+import frc.robot.commands.Autos;
+import frc.robot.commands.DriveDistance;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.HangingSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
-import frc.robot.commands.Hang;
-import frc.robot.commands.ShootAmp;
-import frc.robot.commands.ShootSpeaker;
-import frc.robot.commands.RobotIntake;
-import frc.robot.commands.DriveDistance;
+
 /*
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
@@ -67,18 +66,27 @@ public class RobotContainer {
     }
 
     private void configureButtonBindings() {
-        // Drive at half speed when the 1 button is held.
-        new JoystickButton(driverJoystick, 1)
-                .onTrue(new ShootAmp(12, robotShooter));
-        // Shoot when the 2 button is held.
-        new JoystickButton(driverJoystick, 2)
-                .onTrue(new ShootSpeaker(12, robotShooter));
-        // Hang when the 3 button is held.
-        new JoystickButton(driverJoystick, 3)
-                .onTrue(new Hang(12, robotHanging));
-        // Intake Feed when the 4 button is held.
-        new JoystickButton(driverJoystick, 4)
-                .onTrue(new RobotIntake(12, robotIntake));
+//        // Shoot amp when button 1 is pressed.
+//        new JoystickButton(driverJoystick, 1)
+//                .onTrue(new ShootAmp(12, robotShooter));
+//        // Shoot when the 2 button is held.
+//        new JoystickButton(driverJoystick, 2)
+//                .onTrue(new ShootSpeaker(12, robotShooter));
+//        // Hang when the 3 button is held.
+//        new JoystickButton(driverJoystick, 3)
+//                .onTrue(new Hang(12, robotHanging));
+//        // Intake Feed when the 4 button is held.
+//        new JoystickButton(driverJoystick, 4)
+//                .onTrue(new RobotIntake(12, robotIntake));
+//
+//        new JoystickButton(driverJoystick, 12)
+//                .onTrue(new InstantCommand(() -> robotDrive.resetOdometry(new Pose2d(0, 0, new Rotation2d(0)))));
+
+        new JoystickButton(driverJoystick, 7).whileTrue(robotDrive.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
+        new JoystickButton(driverJoystick, 8).whileTrue(robotDrive.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
+        new JoystickButton(driverJoystick, 9).whileTrue(robotDrive.sysIdDynamic(SysIdRoutine.Direction.kForward));
+        new JoystickButton(driverJoystick, 10).whileTrue(robotDrive.sysIdDynamic(SysIdRoutine.Direction.kReverse));
+
     }
 
     /**
@@ -87,6 +95,7 @@ public class RobotContainer {
      * @return the command to run in autonomous
      */
     public Command getAutonomousCommand() {
-        return new DriveDistance(5,.1, robotDrive);
+//        return Autos.simpleAuto(robotDrive);
+        return new DriveDistance(2,.2, robotDrive);
     }
 }
