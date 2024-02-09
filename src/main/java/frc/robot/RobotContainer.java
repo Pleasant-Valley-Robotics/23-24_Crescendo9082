@@ -25,10 +25,10 @@ import frc.robot.subsystems.ShooterSubsystem;
  */
 public class RobotContainer {
     // The robot's subsystems
-    private final DriveSubsystem robotDrive = new DriveSubsystem();
-    private final ShooterSubsystem robotShooter = new ShooterSubsystem();
-    private final HangingSubsystem robotHanging = new HangingSubsystem();
-    private final IntakeSubsystem robotIntake = new IntakeSubsystem();
+    public final DriveSubsystem robotDrive = new DriveSubsystem();
+    public final ShooterSubsystem robotShooter = new ShooterSubsystem();
+    public final HangingSubsystem robotHanging = new HangingSubsystem();
+    public final IntakeSubsystem robotIntake = new IntakeSubsystem();
     // The driver's joystick
     Joystick driverJoystick = new Joystick(OIConstants.DRIVER_CONTROLLER_PORT);
     Joystick driverJoystick2 = new Joystick(OIConstants.DRIVER_CONTROLLER_PORT_2);
@@ -95,7 +95,7 @@ public class RobotContainer {
      * @return the command to run in autonomous
      */
     public Command getAutonomousCommand() {
-//        return Autos.simpleAuto(robotDrive);
-        return new DriveDistance(2,.2, robotDrive);
+       return Autos.simpleAuto(robotDrive);
+        // return new DriveDistance(2,.2, robotDrive);
     }
 }

@@ -95,6 +95,18 @@ public class DriveSubsystem extends SubsystemBase {
         );
     }
 
+    public void disableMotorSafetyTimeout() {
+        drive.setSafetyEnabled(false);
+    }
+
+    public void enableMotorSafetyTimeout() {
+        drive.setSafetyEnabled(true);
+    }
+
+    public void setMotorSafetyTimeout(double seconds) {
+        drive.setExpiration(seconds);
+    }
+
     @Override
     public void periodic() {
         // Update the odometry in the periodic block
