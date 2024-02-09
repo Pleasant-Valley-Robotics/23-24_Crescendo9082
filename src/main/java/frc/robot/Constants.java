@@ -60,13 +60,13 @@ public final class Constants {
         // These characterization values MUST be determined either experimentally or theoretically
         // for *your* robot's drive.
         // The SysId tool provides a convenient method for obtaining these values for your robot.
-        public static final SimpleMotorFeedforward FEEDFORWARD = new SimpleMotorFeedforward(1, .5, 0);
+        public static final SimpleMotorFeedforward FEEDFORWARD = new SimpleMotorFeedforward(0, 0.13872, 0.025702); //Tuned by Brandon Seamer via SysID on tests 2/8/2024
 
         // Example value only - as above, this must be tuned for your drive!
-        public static final double P_FRONT_LEFT_VEL = .5;
-        public static final double P_REAR_LEFT_VEL = .5;
-        public static final double P_FRONT_RIGHT_VEL = .5;
-        public static final double P_REAR_RIGHT_VEL = .5;
+        public static final double P_FRONT_LEFT_VEL = 0;   //Tuned by Brandon Seamer via SysID on tests 2/8/2024 values approached 0 when vel error < 1m/s
+        public static final double P_REAR_LEFT_VEL = 0;    //Tuned by Brandon Seamer via SysID on tests 2/8/2024 values approached 0 when vel error < 1m/s
+        public static final double P_FRONT_RIGHT_VEL = 0;  //Tuned by Brandon Seamer via SysID on tests 2/8/2024 values approached 0 when vel error < 1m/s
+        public static final double P_REAR_RIGHT_VEL = 0;   //Tuned by Brandon Seamer via SysID on tests 2/8/2024 values approached 0 when vel error < 1m/s
     }
 
     public static final class OIConstants {
@@ -82,9 +82,12 @@ public final class Constants {
         public static final double MAX_ANGULAR_SPEED_RADIANS_PER_SECOND = Math.PI;
         public static final double MAX_ANGULAR_SPEED_RADIANS_PER_SECOND_SQUARED = Math.PI;
 
-        public static final double PX_CONTROLLER = 4; // Volts per Meter
-        public static final double PY_CONTROLLER = 4; // Volts per Meter
-        public static final double P_THETA_CONTROLLER = 4;    //Volts per radian
+        public static final double PX_CONTROLLER = 11.201; // Volts per Meter    //Tuned by Brandon Seamer via SysID on tests 2/8/2024 with (0.1 pos error | 1 vel error)
+        public static final double PY_CONTROLLER = 11.201; // Volts per Meter    //Tuned by Brandon Seamer via SysID on tests 2/8/2024 with (0.1 pos error | 1 vel error)
+        public static final double P_THETA_CONTROLLER = 11.201;    //Volts per radian    //Tuned by Brandon Seamer via SysID on tests 2/8/2024 this parts fuzzy
+        public static final double DX_CONTROLLER = 1.2116;   //Tuned by Brandon Seamer via SysID on tests 2/8/2024 with (0.1 pos error | 1 vel error)
+        public static final double DY_CONTROLLER = 1.2116;   //Tuned by Brandon Seamer via SysID on tests 2/8/2024 with (0.1 pos error | 1 vel error)
+        public static final double D_THETA_CONTROLLER = 1.2116;  //Tuned by Brandon Seamer via SysID on tests 2/8/2024 this parts fuzzy
 
         // Constraint for the motion profiled robot angle controller
         public static final TrapezoidProfile.Constraints THETA_CONTROLLER_CONSTRAINTS =
