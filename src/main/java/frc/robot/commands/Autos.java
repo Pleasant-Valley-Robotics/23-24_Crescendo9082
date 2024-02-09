@@ -22,12 +22,31 @@ import com.kauailabs.navx.AHRSProtocol.MagCalData;
 
 public class Autos {
         public static Command simpleAuto(DriveSubsystem robotDrive) {
+                // Define a PID Controller for controlling our X position
+                PIDController positionXController = new PIDController(Constants.AutoConstants.PX_CONTROLLER, 0, Constants.AutoConstants.DX_CONTROLLER);
+                positionXController.setTolerance(0.05);
+
+                // Define a PID Controller for controlling our Y position
+                PIDController positionYController = new PIDController(Constants.AutoConstants.PY_CONTROLLER, 0, Constants.AutoConstants.DY_CONTROLLER);
+                positionYController.setTolerance(0.05);
+
+                // Define a profiled PID controller for controlling the theta (rotation) of our robot
+                ProfiledPIDController positionThetaController = new ProfiledPIDController(
+                                                Constants.AutoConstants.P_THETA_CONTROLLER, 0, Constants.AutoConstants.D_THETA_CONTROLLER,
+                                                Constants.AutoConstants.THETA_CONTROLLER_CONSTRAINTS);
+                positionThetaController.setTolerance(0.1); // <----- This will need to be adjusted, Brandon doesn't really understand exactly what this translates to on the physical robot yet.
+                
+                PIDController velocityFLController = new PIDController(Constants.DriveConstants.P_FRONT_LEFT_VEL, 0, 0);
+                PIDController velocityBLController = new PIDController(Constants.DriveConstants.P_REAR_LEFT_VEL, 0, 0);               
+                PIDController velocityFRController = new PIDController(Constants.DriveConstants.P_FRONT_RIGHT_VEL, 0, 0);
+                PIDController velocityBRController = new PIDController(Constants.DriveConstants.P_REAR_RIGHT_VEL, 0, 0);                
+
+                // Create the configuration for our generated trajectories to follow
                 TrajectoryConfig config = new TrajectoryConfig(
                                 Constants.AutoConstants.MAX_SPEED_METERS_PER_SECOND,
                                 Constants.AutoConstants.MAX_ACCELERATION_METERS_PER_SECOND_SQUARED)
                                 // Add kinematics to ensure max speed is actually obeyed
                                 .setKinematics(Constants.DriveConstants.DRIVE_KINEMATICS);
-
                 // An example trajectory to follow. All units in meters.
                 Trajectory exampleTrajectory = TrajectoryGenerator.generateTrajectory(
                                 new Pose2d(0, 0, new Rotation2d(0)),
@@ -47,20 +66,18 @@ public class Autos {
                                 Constants.DriveConstants.DRIVE_KINEMATICS,
 
                                 // Position controllers (Meters)
-                                new PIDController(Constants.AutoConstants.PX_CONTROLLER, 0, Constants.AutoConstants.DX_CONTROLLER),
-                                new PIDController(Constants.AutoConstants.PY_CONTROLLER, 0, Constants.AutoConstants.DY_CONTROLLER),
-                                new ProfiledPIDController(
-                                                Constants.AutoConstants.P_THETA_CONTROLLER, 0, Constants.AutoConstants.D_THETA_CONTROLLER,
-                                                Constants.AutoConstants.THETA_CONTROLLER_CONSTRAINTS),
+                                positionXController,
+                                positionYController,
+                                positionThetaController,
 
                                 // Needed for normalizing wheel speeds
                                 Constants.AutoConstants.MAX_SPEED_METERS_PER_SECOND,
 
                                 // Velocity PID's (Meters/Second)
-                                new PIDController(Constants.DriveConstants.P_FRONT_LEFT_VEL, 0, 0),
-                                new PIDController(Constants.DriveConstants.P_REAR_LEFT_VEL, 0, 0),
-                                new PIDController(Constants.DriveConstants.P_FRONT_RIGHT_VEL, 0, 0),
-                                new PIDController(Constants.DriveConstants.P_REAR_RIGHT_VEL, 0, 0),
+                                velocityFLController,
+                                velocityBLController,
+                                velocityFRController,
+                                velocityBRController,
                                 robotDrive::getCurrentWheelSpeeds,
                                 robotDrive::setDriveMotorControllersVolts, // Consumer for the output motor voltages
                                 robotDrive);
