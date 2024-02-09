@@ -14,21 +14,17 @@ import edu.wpi.first.wpilibj2.command.MecanumControllerCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants;
 import frc.robot.subsystems.DriveSubsystem;
-
-import java.util.Collections;
 import java.util.List;
-
-import com.kauailabs.navx.AHRSProtocol.MagCalData;
 
 public class Autos {
         public static Command simpleAuto(DriveSubsystem robotDrive) {
                 // Define a PID Controller for controlling our X position
                 PIDController positionXController = new PIDController(Constants.AutoConstants.PX_CONTROLLER, 0, Constants.AutoConstants.DX_CONTROLLER);
-                positionXController.setTolerance(0.05);
+                positionXController.setTolerance(0.05); //Tolerance in meters, 0.01 being one centimeter
 
                 // Define a PID Controller for controlling our Y position
                 PIDController positionYController = new PIDController(Constants.AutoConstants.PY_CONTROLLER, 0, Constants.AutoConstants.DY_CONTROLLER);
-                positionYController.setTolerance(0.05);
+                positionYController.setTolerance(0.05); //Tolerance in meters, 0.01 being one centimeter
 
                 // Define a profiled PID controller for controlling the theta (rotation) of our robot
                 ProfiledPIDController positionThetaController = new ProfiledPIDController(
@@ -48,19 +44,20 @@ public class Autos {
                                 // Add kinematics to ensure max speed is actually obeyed
                                 .setKinematics(Constants.DriveConstants.DRIVE_KINEMATICS);
                 // An example trajectory to follow. All units in meters.
-                Trajectory exampleTrajectory = TrajectoryGenerator.generateTrajectory(
-                                new Pose2d(0, 0, new Rotation2d(0)),
-                                // List.of(new Translation2d(1, 0)),
-                                // Collections.emptyList(),
-                                // List.of(new Translation2d(1, 0), new Translation2d(1, -1), new
-                                // Translation2d(1,0), new Translation2d(1,0), new Translation2d(1,1)),
-                                List.of(new Translation2d(2, -1)),
-                                // End 3 meters straight ahead of where we started, facing forward
-                                new Pose2d(2, 1, new Rotation2d(Math.PI)),
-                                config);
+                Trajectory backwardsSCurveTrajectory = TrajectoryGenerator.generateTrajectory(
+                        // Define start point
+                        new Pose2d(0, 0, new Rotation2d(0)),
+                        
+                        // Define mid points
+                        List.of(new Translation2d(1, 0), new Translation2d(1, -1), 
+                        new Translation2d(2,-1), new Translation2d(2,0), new Translation2d(2,1)),
+
+                        //Define end point
+                        new Pose2d(3, 1, new Rotation2d(Math.PI)),
+                        config);
 
                 var mecanumCommand = new MecanumControllerCommand(
-                                exampleTrajectory,
+                                backwardsSCurveTrajectory,
                                 robotDrive::getPose,
                                 Constants.DriveConstants.FEEDFORWARD,
                                 Constants.DriveConstants.DRIVE_KINEMATICS,
@@ -82,7 +79,7 @@ public class Autos {
                                 robotDrive::setDriveMotorControllersVolts, // Consumer for the output motor voltages
                                 robotDrive);
 
-                robotDrive.resetOdometry(exampleTrajectory.getInitialPose());
+                robotDrive.resetOdometry(backwardsSCurveTrajectory.getInitialPose());
 
                 return new SequentialCommandGroup(
                                 new InstantCommand(() -> robotDrive.setMotorSafetyTimeout(30)),
