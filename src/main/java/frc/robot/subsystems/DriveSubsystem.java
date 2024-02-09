@@ -222,6 +222,10 @@ public class DriveSubsystem extends SubsystemBase {
         return new MecanumDriveWheelPositions(frontLeftEncoder.getPosition(), backLeftEncoder.getPosition(), frontRightEncoder.getPosition(), backRightEncoder.getPosition());
     }
 
+    /**
+     * Calculates the average encoder value.
+     * @return the average encoder value.
+     */
     public double getAverageEncoders() {
         double AverageEncoders = ((Math.abs(frontLeftEncoder.getPosition()) + Math.abs(backLeftEncoder.getPosition()) + Math.abs(frontRightEncoder.getPosition()) + Math.abs(backRightEncoder.getPosition())) / 4);
         return AverageEncoders;
@@ -275,10 +279,20 @@ public class DriveSubsystem extends SubsystemBase {
         log.motor("BRDrive").voltage(volts.mut_replace(voltages.rearRightVoltage, Volts)).linearPosition(distance.mut_replace(this.getBackRightEncoder().getPosition(), Meters)).linearVelocity(velocity.mut_replace(this.getBackRightEncoder().getVelocity(), MetersPerSecond));
     }, this));
 
+    /**
+     * Sets up a command for a test with a very small voltage increase.
+     * @param direction the direction the robot should go during testing.
+     * @return a new sysIdQuasistatic command.
+     */
     public Command sysIdQuasistatic(SysIdRoutine.Direction direction) {
         return routine.quasistatic(direction);
     }
 
+    /**
+     * Sets up a command to run a test with constant 'step voltage'.
+     * @param direction the direction the robot should go during testing.
+     * @return a new sysIdDynamic command.
+     */
     public Command sysIdDynamic(SysIdRoutine.Direction direction) {
         return routine.dynamic(direction);
     }

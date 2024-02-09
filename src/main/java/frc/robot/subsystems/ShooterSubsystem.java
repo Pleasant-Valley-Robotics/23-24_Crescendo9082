@@ -73,6 +73,10 @@ public class ShooterSubsystem extends SubsystemBase {
         lowerRightShooter.setVoltage(volts);
     }
 
+    /**
+     * Sets the shooter MotorControllers to a speed to shoot at the amp.
+     * @param speed
+     */
     public void shootAmp(double speed) {
         upperLeftShooter.set(-speed);
         lowerLeftShooter.set(speed);
@@ -100,18 +104,34 @@ public class ShooterSubsystem extends SubsystemBase {
         lowerRightShooterEncoder.setPosition(0);
     }
 
+    /**
+     * Gets the upper left shooter encoder.
+     * @return the upper left shooter encoder.
+     */
     public RelativeEncoder getUpperLeftShooterEncoder() {
         return upperLeftShooterEncoder;
     }
 
+    /**
+     * Gets the lower left shooter encoder.
+     * @return the lower left shooter encoder.
+     */
     public RelativeEncoder getLowerLeftShooterEncoder() {
         return lowerLeftShooterEncoder;
     }
 
+    /**
+     * Gets the upper right shooter encoder.
+     * @return the upper right shooter encoder.
+     */
     public RelativeEncoder getUpperRightShooterEncoder() {
         return upperRightShooterEncoder;
     }
 
+    /**
+     * Gets the lower right shooter encoder.
+     * @return the lower right shooter encoder.
+     */
     public RelativeEncoder getLowerRightShooterEncoder() {
         return lowerRightShooterEncoder;
     }
