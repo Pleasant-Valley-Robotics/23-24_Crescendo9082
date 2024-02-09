@@ -77,14 +77,14 @@ public final class Constants {
     public static final class AutoConstants {
         public static final double kAutoDriveDistanceInches = 12;
         public static final double kAutoDriveSpeed = .1;
-        public static final double MAX_SPEED_METERS_PER_SECOND = 1;
+        public static final double MAX_SPEED_METERS_PER_SECOND = 2;
         public static final double MAX_ACCELERATION_METERS_PER_SECOND_SQUARED = 1;
         public static final double MAX_ANGULAR_SPEED_RADIANS_PER_SECOND = Math.PI;
         public static final double MAX_ANGULAR_SPEED_RADIANS_PER_SECOND_SQUARED = Math.PI;
 
-        public static final double PX_CONTROLLER = 0.4;
-        public static final double PY_CONTROLLER = 0.4;
-        public static final double P_THETA_CONTROLLER = 0.0;
+        public static final double PX_CONTROLLER = 4; // Volts per Meter
+        public static final double PY_CONTROLLER = 4; // Volts per Meter
+        public static final double P_THETA_CONTROLLER = 4;    //Volts per radian
 
         // Constraint for the motion profiled robot angle controller
         public static final TrapezoidProfile.Constraints THETA_CONTROLLER_CONSTRAINTS =
