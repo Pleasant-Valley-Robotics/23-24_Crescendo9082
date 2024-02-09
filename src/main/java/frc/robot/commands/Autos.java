@@ -47,10 +47,10 @@ public class Autos {
                                 Constants.DriveConstants.DRIVE_KINEMATICS,
 
                                 // Position controllers (Meters)
-                                new PIDController(Constants.AutoConstants.PX_CONTROLLER, 0, 0),
-                                new PIDController(Constants.AutoConstants.PY_CONTROLLER, 0, 0),
+                                new PIDController(Constants.AutoConstants.PX_CONTROLLER, 0, Constants.AutoConstants.DX_CONTROLLER),
+                                new PIDController(Constants.AutoConstants.PY_CONTROLLER, 0, Constants.AutoConstants.DY_CONTROLLER),
                                 new ProfiledPIDController(
-                                                Constants.AutoConstants.P_THETA_CONTROLLER, 0, 0,
+                                                Constants.AutoConstants.P_THETA_CONTROLLER, 0, Constants.AutoConstants.D_THETA_CONTROLLER,
                                                 Constants.AutoConstants.THETA_CONTROLLER_CONSTRAINTS),
 
                                 // Needed for normalizing wheel speeds
