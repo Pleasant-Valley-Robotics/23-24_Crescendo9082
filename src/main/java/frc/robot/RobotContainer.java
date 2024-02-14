@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.AutoCommands;
+import frc.robot.commands.DriveCommands;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.HangingSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -40,28 +41,11 @@ public class RobotContainer {
         configureTeleOpCommands();
     }
 
-    public double applyDeadzone(double input, double deadzone) {
-        if (input > deadzone) return (input - deadzone) / (1 - deadzone);
-        else if (input < -deadzone) return (input + deadzone) / (1 - deadzone);
-        else return 0.0;
-    }
 
     private void configureTeleOpCommands() {
-        robotDrive.setDefaultCommand(new RunCommand(() -> {
-            // Scale throttle from [1.0, -1.0] to [0.0, 1.0].
-            double throttle = driverJoystick.getThrottle() / -2 + 0.5;
+        robotDrive.setDefaultCommand(DriveCommands.getDrivebaseTeleCommand(driverJoystick, robotDrive));
 
-            // The y input is inverted on the controllers.
-            // The reason that the x and y inputs seem to be flipped is that
-            // the robot uses a different coordinate system.
-            double xInput = applyDeadzone(-driverJoystick.getY(), 0.15) * throttle;
-            double yInput = applyDeadzone(driverJoystick.getX(), 0.15) * throttle;
-            double turnInput = applyDeadzone(driverJoystick.getTwist(), 0.15) * throttle;
-
-            robotDrive.drive(xInput, yInput, turnInput, false);
-        }, robotDrive));
-
-        robotIntake.setDefaultCommand(new RunCommand(() -> robotIntake.setIntakeSpeed(driverJoystick2.getY()), robotIntake));
+        robotIntake.setDefaultCommand(DriveCommands.getIntakeTeleCommand(driverJoystick2, robotIntake));
     }
 
     private void configureButtonBindings() {
