@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.Constants.OIConstants;
-import frc.robot.commands.Autos;
+import frc.robot.commands.AutoCommands;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.HangingSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -61,7 +61,7 @@ public class RobotContainer {
             robotDrive.drive(xInput, yInput, turnInput, false);
         }, robotDrive));
 
-        robotIntake.setDefaultCommand(new RunCommand(() -> robotIntake.arm(driverJoystick2.getY()), robotIntake));
+        robotIntake.setDefaultCommand(new RunCommand(() -> robotIntake.setIntakeSpeed(driverJoystick2.getY()), robotIntake));
     }
 
     private void configureButtonBindings() {
@@ -88,13 +88,13 @@ public class RobotContainer {
 
     }
 
-    /**
+     /**
      * Use this to pass the autonomous command to the main {@link Robot} class.
      *
      * @return the command to run in autonomous
      */
     public Command getAutonomousCommand() {
-       return Autos.simpleAuto(robotDrive);
+       return AutoCommands.simpleAuto(robotDrive);
         // return new DriveDistance(2,.2, robotDrive);
     }
 }

@@ -18,55 +18,39 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-    public static final class DriveConstants {
-        //Motor Controller Ports
+    public static final class MotorPorts {
+        // Motor ports
         public static final int FRONT_LEFT_MOTOR_PORT = 5;
         public static final int FRONT_RIGHT_MOTOR_PORT = 2;
         public static final int REAR_LEFT_MOTOR_PORT = 3;
         public static final int REAR_RIGHT_MOTOR_PORT = 4;
-        public static final int INTAKE_FEED_MOTOR_PORT = 14;
-        public static final int INTAKE_ARM_MOTOR_PORT = 6;
-        public static final int LEFT_HANGING_MOTOR_PORT = 7;
-        public static final int RIGHT_HANGING_MOTOR_PORT = 8;
-        public static final int UPPER_LEFT_SHOOTER_MOTOR_PORT = 9;
-        public static final int LOWER_LEFT_SHOOTER_MOTOR_PORT = 10;
-        public static final int UPPER_RIGHT_SHOOTER_MOTOR_PORT = 11;
-        public static final int LOWER_RIGHT_SHOOTER_MOTOR_PORT = 12;
-        public static final int SHOOTER_PIVOT_PORT = 13;
+        public static final int INTAKE_TOP_MOTOR_PORT = 6;
+        public static final int INTAKE_BOTTOM_MOTOR_PORT = 7;
+        public static final int LEFT_HANGING_MOTOR_PORT = 8;
+        public static final int RIGHT_HANGING_MOTOR_PORT = 9;
+        public static final int UPPER_LEFT_SHOOTER_MOTOR_PORT = 10;
+        public static final int LOWER_LEFT_SHOOTER_MOTOR_PORT = 11;
+        public static final int UPPER_RIGHT_SHOOTER_MOTOR_PORT = 12;
+        public static final int LOWER_RIGHT_SHOOTER_MOTOR_PORT = 13;
+        public static final int SHOOTER_PIVOT_PORT = 14;
+    }
 
-        // Distance between centers of right and left wheels on robot
-        public static final double TRACK_WIDTH = 23 * .0254;
+    public static final class PhysicalConstants {
+        // Physical specifications
 
-        // Distance between centers of front and back wheels on robzot
-        public static final double WHEEL_BASE = 20.25 * .0254;
+        // Multiplying by .0254: inch -> meter
+        public static final double WHEEL_SEP_X_METER = 20.25 * .0254; // Distance between centers of front and back wheels on robot
+        public static final double WHEEL_SEP_Y_METER = 23 * .0254; // Distance between centers of right and left wheels on robot
 
-        //Mecanum Drive Kinematics Constant Calculations
-        public static final MecanumDriveKinematics DRIVE_KINEMATICS =
-                new MecanumDriveKinematics(
-                        new Translation2d(WHEEL_BASE / 2, TRACK_WIDTH / 2),
-                        new Translation2d(WHEEL_BASE / 2, -TRACK_WIDTH / 2),
-                        new Translation2d(-WHEEL_BASE / 2, TRACK_WIDTH / 2),
-                        new Translation2d(-WHEEL_BASE / 2, -TRACK_WIDTH / 2));
+        public static final MecanumDriveKinematics DRIVE_KINEMATICS = new MecanumDriveKinematics(new Translation2d(WHEEL_SEP_X_METER / 2, WHEEL_SEP_Y_METER / 2), new Translation2d(WHEEL_SEP_X_METER / 2, -WHEEL_SEP_Y_METER / 2), new Translation2d(-WHEEL_SEP_X_METER / 2, WHEEL_SEP_Y_METER / 2), new Translation2d(-WHEEL_SEP_X_METER / 2, -WHEEL_SEP_Y_METER / 2));
 
-        public static final int ENCODER_CPR = 42; //This value might need divided by 4 if this is meant to be "pulses per revolution" and not "Counts per revolution" https://www.andymark.com/products/neo-1-1-brushless-motor?via=Z2lkOi8vYW5keW1hcmsvV29ya2FyZWE6OkNhdGFsb2c6OkNhdGVnb3J5LzViYjYxOGI0YmM2ZjZkNmRlMWU2OWZkZg
+        // This value might need divided by 4 if this is meant to be "pulses per revolution" and not "Counts per revolution"
+        public static final int ENCODER_CPR = 42; // https://www.andymark.com/products/neo-1-1-brushless-motor
         public static final double WHEEL_DIAMETER_INCHES = 5.97;
         public static final double WHEEL_DIAMETER_METERS = WHEEL_DIAMETER_INCHES * 0.0254;
         public static final double DRIVE_GEAR_REDUCTION = 5.95; //https://www.andymark.com/products/toughbox-micro-classic
         // Assumes the encoders are directly mounted on the wheel shafts
         public static final double ENCODER_DISTANCE_PER_PULSE = (WHEEL_DIAMETER_METERS * Math.PI) / (DRIVE_GEAR_REDUCTION);
-        public static final double ENCODER_DISTANCE_PER_PULSE_VEL = (WHEEL_DIAMETER_METERS * Math.PI) / (DRIVE_GEAR_REDUCTION * 60);
-
-        // These are example values only - DO NOT USE THESE FOR YOUR OWN ROBOT!
-        // These characterization values MUST be determined either experimentally or theoretically
-        // for *your* robot's drive.
-        // The SysId tool provides a convenient method for obtaining these values for your robot.
-        public static final SimpleMotorFeedforward FEEDFORWARD = new SimpleMotorFeedforward(0, 0.13872, 0.025702); //Tuned by Brandon Seamer via SysID on tests 2/8/2024
-
-        // Example value only - as above, this must be tuned for your drive!
-        public static final double P_FRONT_LEFT_VEL = 0;   //Tuned by Brandon Seamer via SysID on tests 2/8/2024 values approached 0 when vel error < 1m/s
-        public static final double P_REAR_LEFT_VEL = 0;    //Tuned by Brandon Seamer via SysID on tests 2/8/2024 values approached 0 when vel error < 1m/s
-        public static final double P_FRONT_RIGHT_VEL = 0;  //Tuned by Brandon Seamer via SysID on tests 2/8/2024 values approached 0 when vel error < 1m/s
-        public static final double P_REAR_RIGHT_VEL = 0;   //Tuned by Brandon Seamer via SysID on tests 2/8/2024 values approached 0 when vel error < 1m/s
     }
 
     public static final class OIConstants {
@@ -75,8 +59,14 @@ public final class Constants {
     }
 
     public static final class AutoConstants {
-        public static final double kAutoDriveDistanceInches = 12;
-        public static final double kAutoDriveSpeed = .1;
+        public static final SimpleMotorFeedforward FEEDFORWARD = new SimpleMotorFeedforward(0, 0.13872, 0.025702); //Tuned by Brandon Seamer via SysID on tests 2/8/2024
+
+        // Example value only - as above, this must be tuned for your drive!
+        public static final double P_FRONT_LEFT_VEL = 0;   //Tuned by Brandon Seamer via SysID on tests 2/8/2024 values approached 0 when vel error < 1m/s
+        public static final double P_REAR_LEFT_VEL = 0;    //Tuned by Brandon Seamer via SysID on tests 2/8/2024 values approached 0 when vel error < 1m/s
+        public static final double P_FRONT_RIGHT_VEL = 0;  //Tuned by Brandon Seamer via SysID on tests 2/8/2024 values approached 0 when vel error < 1m/s
+        public static final double P_REAR_RIGHT_VEL = 0;   //Tuned by Brandon Seamer via SysID on tests 2/8/2024 values approached 0 when vel error < 1m/s
+
         public static final double MAX_SPEED_METERS_PER_SECOND = 2;
         public static final double MAX_ACCELERATION_METERS_PER_SECOND_SQUARED = 1;
         public static final double MAX_ANGULAR_SPEED_RADIANS_PER_SECOND = Math.PI;
@@ -90,9 +80,7 @@ public final class Constants {
         public static final double D_THETA_CONTROLLER = 1.2116;  //Tuned by Brandon Seamer via SysID on tests 2/8/2024 this parts fuzzy
 
         // Constraint for the motion profiled robot angle controller
-        public static final TrapezoidProfile.Constraints THETA_CONTROLLER_CONSTRAINTS =
-                new TrapezoidProfile.Constraints(
-                        MAX_ANGULAR_SPEED_RADIANS_PER_SECOND, MAX_ANGULAR_SPEED_RADIANS_PER_SECOND_SQUARED);
+        public static final TrapezoidProfile.Constraints THETA_CONTROLLER_CONSTRAINTS = new TrapezoidProfile.Constraints(MAX_ANGULAR_SPEED_RADIANS_PER_SECOND, MAX_ANGULAR_SPEED_RADIANS_PER_SECOND_SQUARED);
     }
 
     public static final class AprilTagCords {
@@ -177,12 +165,12 @@ public final class Constants {
         public static final double aprilTag16Rotation = 240; // Cords for april tag 16's Rotation measured in degrees
     }
 
-    public static final class IntakeConstants{
+    public static final class IntakeConstants {
         public static final double lowerLimit = 0;
         public static final double upperLimit = 100000;
     }
 
-    public static final class ShooterConstants{
+    public static final class ShooterConstants {
         public static final double lowerLimit = 0;
         public static final double upperLimit = 100000;
     }

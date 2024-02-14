@@ -24,20 +24,24 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.Constants;
-import frc.robot.Constants.DriveConstants;
+import frc.robot.Constants.MotorPorts;
 
 import static edu.wpi.first.units.Units.*;
+import static frc.robot.Constants.MotorPorts.*;
+import static frc.robot.Constants.PhysicalConstants.*;
 import static frc.robot.ShuffleboardContainer.robotData;
 
 public class DriveSubsystem extends SubsystemBase {
-    private final CANSparkMax FLDrive = new CANSparkMax(DriveConstants.FRONT_LEFT_MOTOR_PORT, MotorType.kBrushless);
-    private final CANSparkMax FRDrive = new CANSparkMax(DriveConstants.FRONT_RIGHT_MOTOR_PORT, MotorType.kBrushless);
-    private final CANSparkMax BLDrive = new CANSparkMax(DriveConstants.REAR_LEFT_MOTOR_PORT, MotorType.kBrushless);
-    private final CANSparkMax BRDrive = new CANSparkMax(DriveConstants.REAR_RIGHT_MOTOR_PORT, MotorType.kBrushless);
-    private final RelativeEncoder frontLeftEncoder = FLDrive.getEncoder(Type.kHallSensor, Constants.DriveConstants.ENCODER_CPR);
-    private final RelativeEncoder frontRightEncoder = FRDrive.getEncoder(Type.kHallSensor, Constants.DriveConstants.ENCODER_CPR);
-    private final RelativeEncoder backLeftEncoder = BLDrive.getEncoder(Type.kHallSensor, Constants.DriveConstants.ENCODER_CPR);
-    private final RelativeEncoder backRightEncoder = BRDrive.getEncoder(Type.kHallSensor, Constants.DriveConstants.ENCODER_CPR);
+    private final CANSparkMax FLDrive = new CANSparkMax(FRONT_LEFT_MOTOR_PORT, MotorType.kBrushless);
+    private final CANSparkMax FRDrive = new CANSparkMax(FRONT_RIGHT_MOTOR_PORT, MotorType.kBrushless);
+    private final CANSparkMax BLDrive = new CANSparkMax(REAR_LEFT_MOTOR_PORT, MotorType.kBrushless);
+    private final CANSparkMax BRDrive = new CANSparkMax(REAR_RIGHT_MOTOR_PORT, MotorType.kBrushless);
+
+    private final RelativeEncoder frontLeftEncoder = FLDrive.getEncoder(Type.kHallSensor, ENCODER_CPR);
+    private final RelativeEncoder frontRightEncoder = FRDrive.getEncoder(Type.kHallSensor, ENCODER_CPR);
+    private final RelativeEncoder backLeftEncoder = BLDrive.getEncoder(Type.kHallSensor, ENCODER_CPR);
+    private final RelativeEncoder backRightEncoder = BRDrive.getEncoder(Type.kHallSensor, ENCODER_CPR);
+
     private final MecanumDrive drive = new MecanumDrive(FLDrive, BLDrive, FRDrive, BRDrive);
 
 
@@ -45,22 +49,22 @@ public class DriveSubsystem extends SubsystemBase {
     private final AHRS gyro = new AHRS();
 
     // Odometry class for tracking robot pose
-    MecanumDriveOdometry odometry = new MecanumDriveOdometry(DriveConstants.DRIVE_KINEMATICS, gyro.getRotation2d(), new MecanumDriveWheelPositions());
+    MecanumDriveOdometry odometry = new MecanumDriveOdometry(DRIVE_KINEMATICS, gyro.getRotation2d(), new MecanumDriveWheelPositions());
 
     /**
      * Creates a new DriveSubsystem.
      */
     public DriveSubsystem() {
         // Sets the distance per pulse for the encoders
-        frontLeftEncoder.setPositionConversionFactor(DriveConstants.ENCODER_DISTANCE_PER_PULSE);
-        frontRightEncoder.setPositionConversionFactor(DriveConstants.ENCODER_DISTANCE_PER_PULSE);
-        backLeftEncoder.setPositionConversionFactor(DriveConstants.ENCODER_DISTANCE_PER_PULSE);
-        backRightEncoder.setPositionConversionFactor(DriveConstants.ENCODER_DISTANCE_PER_PULSE);
+        frontLeftEncoder.setPositionConversionFactor(ENCODER_DISTANCE_PER_PULSE);
+        frontRightEncoder.setPositionConversionFactor(ENCODER_DISTANCE_PER_PULSE);
+        backLeftEncoder.setPositionConversionFactor(ENCODER_DISTANCE_PER_PULSE);
+        backRightEncoder.setPositionConversionFactor(ENCODER_DISTANCE_PER_PULSE);
 
-        frontLeftEncoder.setVelocityConversionFactor(DriveConstants.ENCODER_DISTANCE_PER_PULSE_VEL);
-        frontRightEncoder.setVelocityConversionFactor(DriveConstants.ENCODER_DISTANCE_PER_PULSE_VEL);
-        backLeftEncoder.setVelocityConversionFactor(DriveConstants.ENCODER_DISTANCE_PER_PULSE_VEL);
-        backRightEncoder.setVelocityConversionFactor(DriveConstants.ENCODER_DISTANCE_PER_PULSE_VEL);
+        frontLeftEncoder.setVelocityConversionFactor(ENCODER_DISTANCE_PER_PULSE / 60);
+        frontRightEncoder.setVelocityConversionFactor(ENCODER_DISTANCE_PER_PULSE / 60);
+        backLeftEncoder.setVelocityConversionFactor(ENCODER_DISTANCE_PER_PULSE / 60);
+        backRightEncoder.setVelocityConversionFactor(ENCODER_DISTANCE_PER_PULSE / 60);
 
         FLDrive.setIdleMode(CANSparkBase.IdleMode.kBrake);
         FRDrive.setIdleMode(CANSparkBase.IdleMode.kBrake);
@@ -224,6 +228,7 @@ public class DriveSubsystem extends SubsystemBase {
 
     /**
      * Calculates the average encoder value.
+     *
      * @return the average encoder value.
      */
     public double getAverageEncoders() {
@@ -281,6 +286,7 @@ public class DriveSubsystem extends SubsystemBase {
 
     /**
      * Sets up a command for a test with a very small voltage increase.
+     *
      * @param direction the direction the robot should go during testing.
      * @return a new sysIdQuasistatic command.
      */
@@ -290,6 +296,7 @@ public class DriveSubsystem extends SubsystemBase {
 
     /**
      * Sets up a command to run a test with constant 'step voltage'.
+     *
      * @param direction the direction the robot should go during testing.
      * @return a new sysIdDynamic command.
      */

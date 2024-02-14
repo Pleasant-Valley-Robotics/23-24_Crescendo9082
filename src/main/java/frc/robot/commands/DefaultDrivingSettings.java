@@ -22,6 +22,6 @@ public class DefaultDrivingSettings {
 
         robotDrive.drive(xInput, yInput, turnInput, true);
 
-        return new InstantCommand(() -> robotIntake.arm(driverJoystick2.getY()), robotIntake);
+        return new InstantCommand(() -> robotIntake.setIntakeSpeed(driverJoystick2.getY()), robotIntake);
     }
 }

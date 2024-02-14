@@ -4,15 +4,17 @@
 
 package frc.robot.subsystems;
 
-import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.DriveConstants;
+
+import static frc.robot.Constants.MotorPorts.LEFT_HANGING_MOTOR_PORT;
+import static frc.robot.Constants.MotorPorts.RIGHT_HANGING_MOTOR_PORT;
 
 public class HangingSubsystem extends SubsystemBase {
-    private final CANSparkMax leftHangingMotor = new CANSparkMax(DriveConstants.LEFT_HANGING_MOTOR_PORT, MotorType.kBrushless);
-    private final CANSparkMax rightHangingMotor = new CANSparkMax(DriveConstants.RIGHT_HANGING_MOTOR_PORT, MotorType.kBrushless);
+    private final CANSparkMax leftHangingMotor = new CANSparkMax(LEFT_HANGING_MOTOR_PORT, MotorType.kBrushless);
+    private final CANSparkMax rightHangingMotor = new CANSparkMax(RIGHT_HANGING_MOTOR_PORT, MotorType.kBrushless);
     private final RelativeEncoder leftHangingEncoder = leftHangingMotor.getEncoder();
     private final RelativeEncoder rightHangingEncoder = rightHangingMotor.getEncoder();
 

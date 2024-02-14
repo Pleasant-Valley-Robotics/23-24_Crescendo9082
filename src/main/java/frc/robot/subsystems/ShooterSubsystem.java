@@ -4,19 +4,20 @@
 
 package frc.robot.subsystems;
 
-import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.Constants.DriveConstants;
+
+import static frc.robot.Constants.MotorPorts.*;
 
 public class ShooterSubsystem extends SubsystemBase {
-    private final CANSparkMax upperLeftShooter = new CANSparkMax(DriveConstants.UPPER_LEFT_SHOOTER_MOTOR_PORT, MotorType.kBrushless);
-    private final CANSparkMax lowerLeftShooter = new CANSparkMax(DriveConstants.LOWER_LEFT_SHOOTER_MOTOR_PORT, MotorType.kBrushless);
-    private final CANSparkMax upperRightShooter = new CANSparkMax(DriveConstants.UPPER_RIGHT_SHOOTER_MOTOR_PORT, MotorType.kBrushless);
-    private final CANSparkMax lowerRightShooter = new CANSparkMax(DriveConstants.LOWER_RIGHT_SHOOTER_MOTOR_PORT, MotorType.kBrushless);
-    private final CANSparkMax shooterArm = new CANSparkMax(DriveConstants.SHOOTER_PIVOT_PORT, MotorType.kBrushless);
+    private final CANSparkMax upperLeftShooter = new CANSparkMax(UPPER_LEFT_SHOOTER_MOTOR_PORT, MotorType.kBrushless);
+    private final CANSparkMax lowerLeftShooter = new CANSparkMax(LOWER_LEFT_SHOOTER_MOTOR_PORT, MotorType.kBrushless);
+    private final CANSparkMax upperRightShooter = new CANSparkMax(UPPER_RIGHT_SHOOTER_MOTOR_PORT, MotorType.kBrushless);
+    private final CANSparkMax lowerRightShooter = new CANSparkMax(LOWER_RIGHT_SHOOTER_MOTOR_PORT, MotorType.kBrushless);
+    private final CANSparkMax shooterArm = new CANSparkMax(SHOOTER_PIVOT_PORT, MotorType.kBrushless);
     private final RelativeEncoder upperLeftShooterEncoder = upperLeftShooter.getEncoder();
     private final RelativeEncoder lowerLeftShooterEncoder = lowerLeftShooter.getEncoder();
     private final RelativeEncoder upperRightShooterEncoder = upperRightShooter.getEncoder();

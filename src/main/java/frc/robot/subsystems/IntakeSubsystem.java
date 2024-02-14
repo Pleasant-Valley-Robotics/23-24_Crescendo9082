@@ -4,99 +4,36 @@
 
 package frc.robot.subsystems;
 
-import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.DriveConstants;
-import frc.robot.Constants.IntakeConstants;
+
+import static frc.robot.Constants.MotorPorts.INTAKE_BOTTOM_MOTOR_PORT;
+import static frc.robot.Constants.MotorPorts.INTAKE_TOP_MOTOR_PORT;
 
 public class IntakeSubsystem extends SubsystemBase {
-    private final CANSparkMax intakeArm = new CANSparkMax(DriveConstants.INTAKE_FEED_MOTOR_PORT, MotorType.kBrushless);
-    private final CANSparkMax intakeFeed = new CANSparkMax(DriveConstants.INTAKE_ARM_MOTOR_PORT, MotorType.kBrushless);
-    private final RelativeEncoder intakeArmEncoder = intakeArm.getEncoder();
-    private final RelativeEncoder intakeFeedEncoder = intakeFeed.getEncoder();
+    private final CANSparkMax intakeTop = new CANSparkMax(INTAKE_TOP_MOTOR_PORT, MotorType.kBrushless);
+    private final CANSparkMax intakeBottom = new CANSparkMax(INTAKE_BOTTOM_MOTOR_PORT, MotorType.kBrushless);
 
-    /**
-     * Creates a new IntakeSubsystem.
-     */
+    public final RelativeEncoder intakeTopEncoder = intakeTop.getEncoder();
+    public final RelativeEncoder intakeBottomEncoder = intakeBottom.getEncoder();
+
     public IntakeSubsystem() {
     }
 
     @Override
     public void periodic() {
-        // This method will be called once per scheduler run
+        // this function doesn't do anything right now
     }
 
     /**
-     * Drives the intake feed motors at given speed. Speeds range from [-1, 1].
+     * Drives the intake arm at given speed.
      *
-     * @param speed speed of the intake feed motors.
+     * @param speed Speed of the intake arm motors. [-1, 1], negative is consumption, positive is barfing.
      */
-    public void feed(double speed) {
-        intakeFeed.set(speed);
-    }
-
-    /**
-     * Sets the intake feed MotorControllers to a voltage.
-     */
-    public void feedVoltage(double volts) {
-        intakeFeed.setVoltage(volts);
-    }
-
-    /**
-     * Resets the intake feed encoders to currently read a position of 0.
-     */
-    public void resetFeedEncoders() {
-        intakeFeedEncoder.setPosition(0);
-    }
-
-    /**
-     * Gets the front shooter drive encoder.
-     *
-     * @return the intake feed drive encoder
-     */
-    public RelativeEncoder getIntakeFeedEncoder() {
-        return intakeFeedEncoder;
-    }
-
-    /**
-     * Drives the intake arm at given speed. Speeds range from [-1, 1].
-     *
-     * @param speed speed of the intake arm motors.
-     */
-    public void arm(double speed) {
-        intakeFeed.set(speed);
-    }
-
-    /**
-     * Sets the intake arm MotorControllers to a voltage.
-     */
-    public void armVoltage(double volts) {
-        //if bringing arm down, it needs to be above the lower encoder limit.
-        if(intakeArmEncoder.getPosition() > IntakeConstants.lowerLimit && volts < 0){
-            intakeArm.setVoltage(volts);
-        }
-
-        //if bringing arm up, it needs to be below the encoder limit.
-        if(intakeArmEncoder.getPosition() < IntakeConstants.upperLimit && volts > 0){
-            intakeArm.setVoltage(volts);
-        }
-    }
-
-    /**
-     * Resets the intake arm encoders to currently read a position of 0.
-     */
-    public void resetArmEncoders() {
-        intakeArmEncoder.setPosition(0);
-    }
-
-    /**
-     * Gets the intake arm encoder.
-     *
-     * @return the intake arm encoder
-     */
-    public RelativeEncoder getArmEncoder() {
-        return intakeFeedEncoder;
+    public void setIntakeSpeed(double speed) {
+        intakeTop.set(speed);
+        intakeBottom.set(speed);
     }
 }
