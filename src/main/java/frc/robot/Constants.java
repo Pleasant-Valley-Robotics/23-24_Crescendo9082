@@ -166,8 +166,14 @@ public final class Constants {
     }
 
     public static final class IntakeConstants {
-        public static final double lowerLimit = 0;
-        public static final double upperLimit = 100000;
+        // PID controller constants
+        public static final double kP = 0;
+        public static final double kI = 0;
+        public static final double kD = 0;
+
+        // Feedforward controller constants
+        public static final double kS = 0;
+        public static final double kV = 0;
     }
 
     public static final class ShooterConstants {

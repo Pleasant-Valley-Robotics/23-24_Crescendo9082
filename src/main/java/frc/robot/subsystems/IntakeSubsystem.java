@@ -7,17 +7,24 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
+import static frc.robot.Constants.IntakeConstants.*;
 import static frc.robot.Constants.MotorPorts.INTAKE_BOTTOM_MOTOR_PORT;
 import static frc.robot.Constants.MotorPorts.INTAKE_TOP_MOTOR_PORT;
 
 public class IntakeSubsystem extends SubsystemBase {
-    private final CANSparkMax intakeTop = new CANSparkMax(INTAKE_TOP_MOTOR_PORT, MotorType.kBrushless);
-    private final CANSparkMax intakeBottom = new CANSparkMax(INTAKE_BOTTOM_MOTOR_PORT, MotorType.kBrushless);
+    public final CANSparkMax topMotor = new CANSparkMax(INTAKE_TOP_MOTOR_PORT, MotorType.kBrushless);
+    public final CANSparkMax bottomMotor = new CANSparkMax(INTAKE_BOTTOM_MOTOR_PORT, MotorType.kBrushless);
 
-    public final RelativeEncoder intakeTopEncoder = intakeTop.getEncoder();
-    public final RelativeEncoder intakeBottomEncoder = intakeBottom.getEncoder();
+    public final RelativeEncoder topEncoder = topMotor.getEncoder();
+    public final RelativeEncoder bottomEncoder = bottomMotor.getEncoder();
+
+    // just add together the outputs from pidController and feedforward
+    public final PIDController pidController = new PIDController(kP, kI, kD);
+    public final SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(kS, kV);
 
     public IntakeSubsystem() {
     }
@@ -33,7 +40,7 @@ public class IntakeSubsystem extends SubsystemBase {
      * @param speed Speed of the intake arm motors. [-1, 1], negative is consumption, positive is barfing.
      */
     public void setIntakeSpeed(double speed) {
-        intakeTop.set(speed);
-        intakeBottom.set(speed);
+        topMotor.set(speed);
+        bottomMotor.set(speed);
     }
 }
