@@ -23,8 +23,8 @@ public class IntakeSubsystem extends SubsystemBase {
     public final RelativeEncoder bottomEncoder = bottomMotor.getEncoder();
 
     // just add together the outputs from pidController and feedforward
-    public final PIDController pidController = new PIDController(kP, kI, kD);
-    public final SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(kS, kV);
+    public final PIDController pidController = new PIDController(K_P, K_I, K_D);
+    public final SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(K_S, K_V);
 
     public IntakeSubsystem() {
     }

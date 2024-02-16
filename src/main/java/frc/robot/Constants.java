@@ -167,13 +167,15 @@ public final class Constants {
 
     public static final class IntakeConstants {
         // PID controller constants
-        public static final double kP = 0;
-        public static final double kI = 0;
-        public static final double kD = 0;
+        public static final double K_P = 0;
+        public static final double K_I = 0;
+        public static final double K_D = 0;
 
         // Feedforward controller constants
-        public static final double kS = 0;
-        public static final double kV = 0;
+        public static final double K_S = 0;
+        public static final double K_V = 0;
+
+        public static final double INTAKE_RPM_CONVERSION = 26.0 / 18;
     }
 
     public static final class ShooterConstants {
