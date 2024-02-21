@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.HangingSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 
 public class DriveCommands {
@@ -32,5 +33,9 @@ public class DriveCommands {
 
     public static Command getIntakeTeleCommand(Joystick joystick, IntakeSubsystem robotIntake) {
         return new RunCommand(() -> robotIntake.setIntakeSpeed(joystick.getY()), robotIntake);
+    }
+
+    public static Command getHangingTeleCommand(Joystick joystick, HangingSubsystem robotIntake) {
+        return new RunCommand(() -> robotIntake.hang(joystick.getY()), robotIntake);
     }
 }

@@ -15,8 +15,9 @@ import static frc.robot.Constants.MotorPorts.RIGHT_HANGING_MOTOR_PORT;
 public class HangingSubsystem extends SubsystemBase {
     private final CANSparkMax leftHangingMotor = new CANSparkMax(LEFT_HANGING_MOTOR_PORT, MotorType.kBrushless);
     private final CANSparkMax rightHangingMotor = new CANSparkMax(RIGHT_HANGING_MOTOR_PORT, MotorType.kBrushless);
-    private final RelativeEncoder leftHangingEncoder = leftHangingMotor.getEncoder();
-    private final RelativeEncoder rightHangingEncoder = rightHangingMotor.getEncoder();
+
+    public final RelativeEncoder leftHangingEncoder = leftHangingMotor.getEncoder();
+    public final RelativeEncoder rightHangingEncoder = rightHangingMotor.getEncoder();
 
     /**
      * Creates a new HangingSubsystem.
@@ -35,7 +36,7 @@ public class HangingSubsystem extends SubsystemBase {
      * @param speed speed of the hanging motors.
      */
     public void hang(double speed) {
-        leftHangingMotor.set(speed);
+        leftHangingMotor.set(-speed);
         rightHangingMotor.set(speed);
     }
 
@@ -53,23 +54,5 @@ public class HangingSubsystem extends SubsystemBase {
     public void resetEncoders() {
         leftHangingEncoder.setPosition(0);
         rightHangingEncoder.setPosition(0);
-    }
-
-    /**
-     * Gets the front hanging drive encoder.
-     *
-     * @return the front hanging drive encoder
-     */
-    public RelativeEncoder getLeftHangingEncoder() {
-        return leftHangingEncoder;
-    }
-
-    /**
-     * Gets the rear hanging drive encoder.
-     *
-     * @return the rear hanging drive encoder
-     */
-    public RelativeEncoder getRightHangingEncoder() {
-        return rightHangingEncoder;
     }
 }

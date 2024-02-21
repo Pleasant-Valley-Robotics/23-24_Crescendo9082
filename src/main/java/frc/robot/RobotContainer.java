@@ -46,7 +46,8 @@ public class RobotContainer {
     private void configureTeleOpCommands() {
         robotDrive.setDefaultCommand(DriveCommands.getDrivebaseTeleCommand(driverJoystick, robotDrive));
 
-        robotIntake.setDefaultCommand(DriveCommands.getIntakeTeleCommand(driverJoystick2, robotIntake));
+//        robotIntake.setDefaultCommand(DriveCommands.getIntakeTeleCommand(driverJoystick2, robotIntake));
+        robotHanging.setDefaultCommand(DriveCommands.getHangingTeleCommand(driverJoystick2, robotHanging));
     }
 
     private void configureButtonBindings() {
