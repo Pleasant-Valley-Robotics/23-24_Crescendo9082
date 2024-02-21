@@ -5,6 +5,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -30,7 +31,7 @@ public class RobotContainer {
     public final HangingSubsystem robotHanging = new HangingSubsystem();
     public final IntakeSubsystem robotIntake = new IntakeSubsystem();
     // The driver's joystick
-    Joystick driverJoystick = new Joystick(OIConstants.DRIVER_CONTROLLER_PORT);
+    XboxController driverJoystick = new XboxController(OIConstants.DRIVER_CONTROLLER_PORT);
     Joystick driverJoystick2 = new Joystick(OIConstants.DRIVER_CONTROLLER_PORT_2);
 
     /**
