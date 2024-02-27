@@ -20,19 +20,17 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile;
 public final class Constants {
     public static final class MotorPorts {
         // Motor ports
-        public static final int FRONT_LEFT_MOTOR_PORT = 5;
+        public static final int FRONT_LEFT_MOTOR_PORT = 1;
         public static final int FRONT_RIGHT_MOTOR_PORT = 2;
         public static final int REAR_LEFT_MOTOR_PORT = 3;
         public static final int REAR_RIGHT_MOTOR_PORT = 4;
-        public static final int INTAKE_TOP_MOTOR_PORT = 6;
-        public static final int INTAKE_BOTTOM_MOTOR_PORT = 7;
-        public static final int LEFT_HANGING_MOTOR_PORT = 8;
-        public static final int RIGHT_HANGING_MOTOR_PORT = 9;
-        public static final int UPPER_LEFT_SHOOTER_MOTOR_PORT = 10;
-        public static final int LOWER_LEFT_SHOOTER_MOTOR_PORT = 11;
-        public static final int UPPER_RIGHT_SHOOTER_MOTOR_PORT = 12;
-        public static final int LOWER_RIGHT_SHOOTER_MOTOR_PORT = 13;
-        public static final int SHOOTER_PIVOT_PORT = 14;
+        public static final int INTAKE_TOP_MOTOR_PORT = 5;
+        public static final int INTAKE_BOTTOM_MOTOR_PORT = 6;
+        public static final int SHOOTER_TOP_MOTOR_PORT = 7;
+        public static final int SHOOTER_BOTTOM_MOTOR_PORT = 8;
+        public static final int LEFT_HANGING_MOTOR_PORT = 9;
+        public static final int RIGHT_HANGING_MOTOR_PORT = 10;
+        public static final int SHOOTER_PIVOT_PORT = 11;
     }
 
     public static final class PhysicalConstants {
@@ -176,8 +174,13 @@ public final class Constants {
     }
 
     public static final class ShooterConstants {
-        public static final double lowerLimit = 0;
-        public static final double upperLimit = 100000;
+        // PID controller constants
+        public static final double K_P = 0, K_I = 0, K_D = 0;
+
+        // Feedforward controller constants
+        public static final double K_S = 0, K_V = 0;
+
+        public static final double SHOOTER_RPM_CONVERSION = 26.0 / 18;
     }
 
     public static final class HangingConstants {
