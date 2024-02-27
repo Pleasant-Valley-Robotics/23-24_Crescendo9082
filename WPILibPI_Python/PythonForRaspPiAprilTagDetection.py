@@ -21,8 +21,8 @@ def main():
         config = json.load(f)
     camera = config['cameras'][0]
 
-    width = camera['width']
-    height = camera['height']
+    width = 1280#camera['width']
+    height = 720#camera['height']
 
     CameraServer.startAutomaticCapture()
 
