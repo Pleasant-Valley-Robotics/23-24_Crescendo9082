@@ -383,6 +383,100 @@ public final class Main {
     var poseEstConfig = new AprilTagPoseEstimator.Config(0.1651, 699.3778103158814, 677.7161226393544,345.6059345433618, 207.12741326228522);
     var estimator = new AprilTagPoseEstimator(poseEstConfig);
 
+    //Get the UsbCamera from CmaeraServer
+    UsbCamera camera = CameraServer.startAutomaticCapture();
+    //set the resoloution.
+    camera.setResoloution(640,480);
 
+    //Get a CvSink. This will capture Mats from the camera.
+    CvSink cvSink = CameraServer.getVideo();
+    //setup a CvSoyrce.
+    CvSource outputStream = CameraServer.putVideo("Detected", 640, 480);
+
+    //Mats are very memory expesnive. Reuse these.
+    var mt = new Mat();
+    var grayMat = new Mat();
+
+    //Instantiate once.
+    ArrayList<Long> tags = new ArrayList<>();
+    var outlineColor = new Scalar(0, 0, 225);
+    var crossColor = new Scalar(0, 0, 255);
+
+    //Output to NT.
+    NetworkTable tagsTable = NetworkTableInstance.getDefault().getTable("apriltags");
+    IntegerArrayPublisher pubTags = tagsTable.getIntegerArrayTopic("tags").publish();
+
+    //This can't be true or the program will never exit.
+    while (!Thread.interrupted())
+    {
+      //in the source mat. If there's a error notify output.
+      if (cvSink.grabFrame(mat) == 0)
+      {
+        //send output to the motor.
+        outputStream.notifyError(cvSink.getError());
+        //skip the rest of the iteration.
+        continue;
+      }
+
+      imgproc.cvtColor(mat grayMat, Imgproc.COLOR_RGB2GRAY);
+
+      AprilTagDetection[] detections = detector.detect(grayMat);
+
+      //have not seen any tags yet.
+      tags.clear();
+
+      for (AprilTagDetection detection : detections)
+      {
+        //save the tag and add it to the list of detections.
+        tags.add((long) detection.getId());
+
+        //draw lines around the tag.
+        for(var i = 0; i <= 3; i++)
+        {
+          var j = (i + 1) % 4;
+          var pt1 = new Point(detection.getCornerX(i), detection.getCornerY(i));
+          var pt2 = new Point(detection.getCornerX(j), detection.getCornerY(j));
+          Imgproc.line(mat, pt1, pt2, outlineColor, 2);
+        }
+
+        //mark the center of the tag.
+        var cx = detection.getCenterX();
+        var cy = detection.getCenterY();
+        var 11 = 10;
+        Imgproc.line(mat, new Point(cx - 11, cy), new Point(cx + 11, cy), crossColor, 2);
+        Imgproc.line(mat, new Point(cx, cy - 11), new Point(cx, cy + 11), crossColor, 2);
+
+        //identify the tag/give a number Id.
+        Imgproc.putText(
+                mat,
+                Integer.toString(detection.getId()),
+                new Point(cx + 11, cy),
+                Imgproc.FONT_HERSHEY_SIMPLEX,
+                1,
+                crossCOlor,
+                3);
+      )
+
+        //determine tag pose.
+        Transform3d pose = estimator.estimate(detection);
+
+        //put the pose into dashbaord.
+        Rotation3d rot = pose.getRotation();
+        tagsTable
+                .getEntry("pose_" + detection.getId())
+                .setDoubleArray(
+                        new double[]{
+                                pose.getX(), pose.getY(), pose.getZ(), rot.getX(), rot.getY(), rot.getZ()
+                        });
+      }
+
+      pubTags.set(tags.stream().mapToLong(Long:: longValue).toArray());
+
+      //Give the output stream a new image to display
+      outputStream.putFrame(mat);
+    }
+
+    pubTags.close();
+    detector.close();
   }
 }
