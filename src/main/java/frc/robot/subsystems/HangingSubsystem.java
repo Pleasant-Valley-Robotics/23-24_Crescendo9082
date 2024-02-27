@@ -40,6 +40,11 @@ public class HangingSubsystem extends SubsystemBase {
         rightHangingMotor.set(speed);
     }
 
+    public void hangMotors(double leftSpeed, double rightSpeed) {
+        leftHangingMotor.set(leftSpeed);
+        rightHangingMotor.set(rightSpeed);
+    }
+
     /**
      * Sets the hanging MotorControllers to a voltage.
      */

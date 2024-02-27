@@ -4,10 +4,11 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
-import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.HangingSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
+
+import static frc.robot.Constants.HangingConstants.ARM_SPEED;
 
 public class DriveCommands {
     public static double applyDeadzone(double input, double deadzone) {
@@ -19,7 +20,7 @@ public class DriveCommands {
     public static Command getDrivebaseTeleCommand(XboxController joystick, DriveSubsystem robotDrive) {
         return new RunCommand(() -> {
             // Scale throttle from [1.0, -1.0] to [0.0, 1.0].
-            double throttle = 1 - joystick.getRightTriggerAxis() ;
+            double throttle = 1 - joystick.getRightTriggerAxis();
             // The y input is inverted on the controllers.
             // The reason that the x and y inputs seem to be flipped is that
             // the robot uses a different coordinate system.
@@ -36,6 +37,12 @@ public class DriveCommands {
     }
 
     public static Command getHangingTeleCommand(Joystick joystick, HangingSubsystem robotIntake) {
-        return new RunCommand(() -> robotIntake.hang(joystick.getY()), robotIntake);
+        return new RunCommand(() -> {
+            double leftArmUp = joystick.getRawButton(3) ? ARM_SPEED : 0;
+            double leftArmDown = joystick.getRawButton(4) ? ARM_SPEED : 0;
+            double rightArmUp = joystick.getRawButton(5) ? ARM_SPEED : 0;
+            double rightArmDown = joystick.getRawButton(6) ? ARM_SPEED : 0;
+            robotIntake.hangMotors(leftArmUp + leftArmDown, rightArmUp + rightArmDown);
+        }, robotIntake);
     }
 }
