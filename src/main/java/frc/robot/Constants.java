@@ -6,6 +6,7 @@ package frc.robot;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.MecanumDriveKinematics;
@@ -24,15 +25,21 @@ public final class Constants {
         // Motor ports
         public static final int FRONT_LEFT_MOTOR_PORT = 1;
         public static final int FRONT_RIGHT_MOTOR_PORT = 2;
+
         public static final int REAR_LEFT_MOTOR_PORT = 3;
         public static final int REAR_RIGHT_MOTOR_PORT = 4;
+
         public static final int INTAKE_TOP_MOTOR_PORT = 5;
         public static final int INTAKE_BOTTOM_MOTOR_PORT = 6;
+
         public static final int SHOOTER_TOP_MOTOR_PORT = 7;
         public static final int SHOOTER_BOTTOM_MOTOR_PORT = 8;
-        public static final int LEFT_HANGING_MOTOR_PORT = 9;
-        public static final int RIGHT_HANGING_MOTOR_PORT = 10;
-        public static final int SHOOTER_PIVOT_PORT = 11;
+
+        public static final int ARM_LEFT_MOTOR_PORT = 9;
+        public static final int ARM_RIGHT_MOTOR_PORT = 10;
+
+        public static final int LEFT_HANGING_MOTOR_PORT = 11;
+        public static final int RIGHT_HANGING_MOTOR_PORT = 12;
     }
 
     public static final class PhysicalConstants {
@@ -89,9 +96,11 @@ public final class Constants {
     public static final class IntakeConstants {
         // PID controller constants
         public static final double K_P = 0, K_I = 0, K_D = 0;
-
         // Feedforward controller constants
         public static final double K_S = 0, K_V = 0;
+
+        public static final PIDController INTAKE_PID = new PIDController(K_P, K_I, K_D);
+        public static final SimpleMotorFeedforward INTAKE_FEEDFORWARD = new SimpleMotorFeedforward(K_S, K_V);
 
         public static final double INTAKE_RPM_CONVERSION = 26.0 / 18;
     }
@@ -103,7 +112,14 @@ public final class Constants {
         // Feedforward controller constants
         public static final double K_S = 0, K_V = 0;
 
+        public static final PIDController SHOOTER_PID = new PIDController(K_P, K_I, K_D);
+        public static final SimpleMotorFeedforward SHOOTER_FEEDFORWARD = new SimpleMotorFeedforward(K_S, K_V);
+
         public static final double SHOOTER_RPM_CONVERSION = 26.0 / 18;
+    }
+
+    public static final class ArmConstants {
+        // nothing here yet...
     }
 
     public static final class HangingConstants {

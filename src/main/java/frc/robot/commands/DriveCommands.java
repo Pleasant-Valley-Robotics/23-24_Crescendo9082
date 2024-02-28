@@ -1,16 +1,14 @@
 package frc.robot.commands;
 
-import edu.wpi.first.apriltag.AprilTagFieldLayout;
-import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.HangingSubsystem;
-import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.NoteMoverSubsystem;
 
+import static edu.wpi.first.math.MathUtil.clamp;
 import static frc.robot.Constants.HangingConstants.ARM_SPEED;
 
 public class DriveCommands {
@@ -35,21 +33,23 @@ public class DriveCommands {
         }, robotDrive);
     }
 
-    public static Command getIntakeTeleCommand(Joystick joystick, IntakeSubsystem robotIntake) {
-        return new RunCommand(() -> robotIntake.setIntakeSpeed(joystick.getY()), robotIntake);
+    public static Command getNoteMoverTeleCommand(Joystick joystick, NoteMoverSubsystem robotNoteMover) {
+        return new RunCommand(() -> {
+            robotNoteMover.setArmSpeed(joystick.getY());
+            double intakeA = joystick.getRawButton(11) ? 1 : 0;
+            double intakeB = joystick.getRawButton(12) ? 1 : 0;
+            robotNoteMover.setIntakeSpeed(clamp(intakeA + intakeB, -1, 1));
+            robotNoteMover.setShooterSpeed(clamp(intakeA + intakeB, -1, 1));
+        }, robotNoteMover);
     }
 
-    public static Command getShooterTeleCommand(Joystick joystick, ShooterSubsystem robotShooter) {
-        return new RunCommand(() -> robotShooter.setShooterSpeed(joystick.getY()), robotShooter);
-    }
-
-    public static Command getHangingTeleCommand(Joystick joystick, HangingSubsystem robotIntake) {
+    public static Command getHangingTeleCommand(Joystick joystick, HangingSubsystem robotHanging) {
         return new RunCommand(() -> {
             double leftArmUp = joystick.getRawButton(3) ? ARM_SPEED : 0;
             double leftArmDown = joystick.getRawButton(4) ? ARM_SPEED : 0;
             double rightArmUp = joystick.getRawButton(5) ? ARM_SPEED : 0;
             double rightArmDown = joystick.getRawButton(6) ? ARM_SPEED : 0;
-            robotIntake.hangMotors(leftArmUp + leftArmDown, rightArmUp + rightArmDown);
-        }, robotIntake);
+            robotHanging.hangMotors(leftArmUp + leftArmDown, rightArmUp + rightArmDown);
+        }, robotHanging);
     }
 }

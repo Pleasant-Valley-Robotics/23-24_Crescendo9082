@@ -1,38 +1,41 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.NoteMoverSubsystem;
+
+import static frc.robot.Constants.IntakeConstants.INTAKE_FEEDFORWARD;
+import static frc.robot.Constants.IntakeConstants.INTAKE_PID;
 
 
 public class IntakeSpeedCommand extends Command {
-    private final IntakeSubsystem intake;
+    private final NoteMoverSubsystem noteMover;
     private final double speed;
 
-    public IntakeSpeedCommand(IntakeSubsystem intake, double speed) {
-        this.intake = intake;
-        addRequirements(this.intake);
+    public IntakeSpeedCommand(NoteMoverSubsystem noteMover, double speed) {
+        this.noteMover = noteMover;
+        addRequirements(this.noteMover);
 
         this.speed = speed;
     }
 
     @Override
     public void initialize() {
-        intake.pidController.setSetpoint(speed);
+        INTAKE_PID.setSetpoint(speed);
     }
 
     @Override
     public void execute() {
-        double averageVelocity = (intake.topEncoder.getVelocity() + intake.bottomEncoder.getVelocity()) / 2;
-        double voltage = intake.pidController.calculate(averageVelocity, speed) + intake.feedforward.calculate(speed);
+        double averageVelocity = (noteMover.intakeTopEncoder.getVelocity() + noteMover.intakeBottomEncoder.getVelocity()) / 2;
+        double voltage = INTAKE_PID.calculate(averageVelocity, speed) + INTAKE_FEEDFORWARD.calculate(speed);
 
-        intake.topMotor.setVoltage(voltage);
-        intake.bottomMotor.setVoltage(voltage);
+        noteMover.intakeTopMotor.setVoltage(voltage);
+        noteMover.intakeBottomMotor.setVoltage(voltage);
     }
 
 
     @Override
     public void end(boolean interrupted) {
-        intake.topMotor.setVoltage(0);
-        intake.bottomMotor.setVoltage(0);
+        noteMover.intakeTopMotor.setVoltage(0);
+        noteMover.intakeBottomMotor.setVoltage(0);
     }
 }

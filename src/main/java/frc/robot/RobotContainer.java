@@ -7,7 +7,6 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.Constants.OIConstants;
@@ -15,7 +14,7 @@ import frc.robot.commands.AutoCommands;
 import frc.robot.commands.DriveCommands;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.HangingSubsystem;
-import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.NoteMoverSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 
 /*
@@ -29,7 +28,7 @@ public class RobotContainer {
     public final DriveSubsystem robotDrive = new DriveSubsystem();
     public final ShooterSubsystem robotShooter = new ShooterSubsystem();
     public final HangingSubsystem robotHanging = new HangingSubsystem();
-    public final IntakeSubsystem robotIntake = new IntakeSubsystem();
+    public final NoteMoverSubsystem robotIntake = new NoteMoverSubsystem();
     // The driver's joystick
     XboxController driverJoystick = new XboxController(OIConstants.DRIVER_CONTROLLER_PORT);
     Joystick driverJoystick2 = new Joystick(OIConstants.DRIVER_CONTROLLER_PORT_2);
