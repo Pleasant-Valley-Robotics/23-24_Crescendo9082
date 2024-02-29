@@ -51,13 +51,16 @@ public final class Constants {
 
         public static final MecanumDriveKinematics DRIVE_KINEMATICS = new MecanumDriveKinematics(new Translation2d(WHEEL_SEP_X_METER / 2, WHEEL_SEP_Y_METER / 2), new Translation2d(WHEEL_SEP_X_METER / 2, -WHEEL_SEP_Y_METER / 2), new Translation2d(-WHEEL_SEP_X_METER / 2, WHEEL_SEP_Y_METER / 2), new Translation2d(-WHEEL_SEP_X_METER / 2, -WHEEL_SEP_Y_METER / 2));
 
-        // This value might need divided by 4 if this is meant to be "pulses per revolution" and not "Counts per revolution"
         public static final int ENCODER_CPR = 42; // https://www.andymark.com/products/neo-1-1-brushless-motor
+
         public static final double WHEEL_DIAMETER_INCHES = 5.97;
         public static final double WHEEL_DIAMETER_METERS = WHEEL_DIAMETER_INCHES * 0.0254;
         public static final double DRIVE_GEAR_REDUCTION = 5.95; //https://www.andymark.com/products/toughbox-micro-classic
         // Assumes the encoders are directly mounted on the wheel shafts
-        public static final double ENCODER_DISTANCE_PER_PULSE = (WHEEL_DIAMETER_METERS * Math.PI) / (DRIVE_GEAR_REDUCTION);
+        public static final double DRIVE_ENCODER_DISTANCE_PER_PULSE = (WHEEL_DIAMETER_METERS * Math.PI) / (DRIVE_GEAR_REDUCTION);
+
+        public static final double REVS_TO_RADIANS = Math.PI * 2;
+        public static final double REV_PER_MIN_TO_RADIAN_PER_SEC = Math.PI / 60;
     }
 
     public static final class OIConstants {

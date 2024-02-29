@@ -54,15 +54,15 @@ public class DriveSubsystem extends SubsystemBase {
      */
     public DriveSubsystem() {
         // Sets the distance per pulse for the encoders
-        frontLeftEncoder.setPositionConversionFactor(ENCODER_DISTANCE_PER_PULSE);
-        frontRightEncoder.setPositionConversionFactor(ENCODER_DISTANCE_PER_PULSE);
-        backLeftEncoder.setPositionConversionFactor(ENCODER_DISTANCE_PER_PULSE);
-        backRightEncoder.setPositionConversionFactor(ENCODER_DISTANCE_PER_PULSE);
+        frontLeftEncoder.setPositionConversionFactor(DRIVE_ENCODER_DISTANCE_PER_PULSE);
+        frontRightEncoder.setPositionConversionFactor(DRIVE_ENCODER_DISTANCE_PER_PULSE);
+        backLeftEncoder.setPositionConversionFactor(DRIVE_ENCODER_DISTANCE_PER_PULSE);
+        backRightEncoder.setPositionConversionFactor(DRIVE_ENCODER_DISTANCE_PER_PULSE);
 
-        frontLeftEncoder.setVelocityConversionFactor(ENCODER_DISTANCE_PER_PULSE / 60);
-        frontRightEncoder.setVelocityConversionFactor(ENCODER_DISTANCE_PER_PULSE / 60);
-        backLeftEncoder.setVelocityConversionFactor(ENCODER_DISTANCE_PER_PULSE / 60);
-        backRightEncoder.setVelocityConversionFactor(ENCODER_DISTANCE_PER_PULSE / 60);
+        frontLeftEncoder.setVelocityConversionFactor(DRIVE_ENCODER_DISTANCE_PER_PULSE / 60);
+        frontRightEncoder.setVelocityConversionFactor(DRIVE_ENCODER_DISTANCE_PER_PULSE / 60);
+        backLeftEncoder.setVelocityConversionFactor(DRIVE_ENCODER_DISTANCE_PER_PULSE / 60);
+        backRightEncoder.setVelocityConversionFactor(DRIVE_ENCODER_DISTANCE_PER_PULSE / 60);
 
         FLDrive.setIdleMode(CANSparkBase.IdleMode.kBrake);
         FRDrive.setIdleMode(CANSparkBase.IdleMode.kBrake);
@@ -274,7 +274,7 @@ public class DriveSubsystem extends SubsystemBase {
 
     private final MutableMeasure<Velocity<Distance>> velocity = MutableMeasure.mutable(MetersPerSecond.of(0));
 
-    private final SysIdRoutine routine = new SysIdRoutine(new SysIdRoutine.Config(), new SysIdRoutine.Mechanism(
+    public final SysIdRoutine routine = new SysIdRoutine(new SysIdRoutine.Config(), new SysIdRoutine.Mechanism(
             volts -> this.setDriveMotorControllersVolts(new MecanumDriveMotorVoltages(volts.in(Volts), volts.in(Volts), volts.in(Volts), volts.in(Volts))),
             log -> {
                 var voltages = this.getAppliedVoltages();
@@ -295,24 +295,4 @@ public class DriveSubsystem extends SubsystemBase {
                         .linearPosition(distance.mut_replace(this.getBackRightEncoder().getPosition(), Meters))
                         .linearVelocity(velocity.mut_replace(this.getBackRightEncoder().getVelocity(), MetersPerSecond));
             }, this));
-
-    /**
-     * Sets up a command for a test with a very small voltage increase.
-     *
-     * @param direction the direction the robot should go during testing.
-     * @return a new sysIdQuasistatic command.
-     */
-    public Command sysIdQuasistatic(SysIdRoutine.Direction direction) {
-        return routine.quasistatic(direction);
-    }
-
-    /**
-     * Sets up a command to run a test with constant 'step voltage'.
-     *
-     * @param direction the direction the robot should go during testing.
-     * @return a new sysIdDynamic command.
-     */
-    public Command sysIdDynamic(SysIdRoutine.Direction direction) {
-        return routine.dynamic(direction);
-    }
 }

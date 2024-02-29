@@ -26,9 +26,8 @@ import frc.robot.subsystems.ShooterSubsystem;
 public class RobotContainer {
     // The robot's subsystems
     public final DriveSubsystem robotDrive = new DriveSubsystem();
-    public final ShooterSubsystem robotShooter = new ShooterSubsystem();
     public final HangingSubsystem robotHanging = new HangingSubsystem();
-    public final NoteMoverSubsystem robotIntake = new NoteMoverSubsystem();
+    public final NoteMoverSubsystem robotNoteMover = new NoteMoverSubsystem();
     // The driver's joystick
     XboxController driverJoystick = new XboxController(OIConstants.DRIVER_CONTROLLER_PORT);
     Joystick driverJoystick2 = new Joystick(OIConstants.DRIVER_CONTROLLER_PORT_2);
@@ -66,11 +65,20 @@ public class RobotContainer {
 //        new JoystickButton(driverJoystick, 12)
 //                .onTrue(new InstantCommand(() -> robotDrive.resetOdometry(new Pose2d(0, 0, new Rotation2d(0)))));
 
-        new JoystickButton(driverJoystick, 7).whileTrue(robotDrive.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
-        new JoystickButton(driverJoystick, 8).whileTrue(robotDrive.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
-        new JoystickButton(driverJoystick, 9).whileTrue(robotDrive.sysIdDynamic(SysIdRoutine.Direction.kForward));
-        new JoystickButton(driverJoystick, 10).whileTrue(robotDrive.sysIdDynamic(SysIdRoutine.Direction.kReverse));
+        new JoystickButton(driverJoystick, 7).whileTrue(robotDrive.routine.quasistatic(SysIdRoutine.Direction.kForward));
+        new JoystickButton(driverJoystick, 8).whileTrue(robotDrive.routine.quasistatic(SysIdRoutine.Direction.kReverse));
+        new JoystickButton(driverJoystick, 9).whileTrue(robotDrive.routine.dynamic(SysIdRoutine.Direction.kForward));
+        new JoystickButton(driverJoystick, 10).whileTrue(robotDrive.routine.dynamic(SysIdRoutine.Direction.kReverse));
 
+//        new JoystickButton(driverJoystick, 7).whileTrue(robotNoteMover.routine.quasistatic(SysIdRoutine.Direction.kForward));
+//        new JoystickButton(driverJoystick, 8).whileTrue(robotNoteMover.routine.quasistatic(SysIdRoutine.Direction.kReverse));
+//        new JoystickButton(driverJoystick, 9).whileTrue(robotNoteMover.routine.dynamic(SysIdRoutine.Direction.kForward));
+//        new JoystickButton(driverJoystick, 10).whileTrue(robotNoteMover.routine.dynamic(SysIdRoutine.Direction.kReverse));
+
+//        new JoystickButton(driverJoystick, 7).whileTrue(robotHanging.routine.quasistatic(SysIdRoutine.Direction.kForward));
+//        new JoystickButton(driverJoystick, 8).whileTrue(robotHanging.routine.quasistatic(SysIdRoutine.Direction.kReverse));
+//        new JoystickButton(driverJoystick, 9).whileTrue(robotHanging.routine.dynamic(SysIdRoutine.Direction.kForward));
+//        new JoystickButton(driverJoystick, 10).whileTrue(robotHanging.routine.dynamic(SysIdRoutine.Direction.kReverse));
     }
 
      /**

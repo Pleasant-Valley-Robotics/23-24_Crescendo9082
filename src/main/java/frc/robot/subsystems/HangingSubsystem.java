@@ -64,16 +64,18 @@ public class HangingSubsystem extends SubsystemBase {
         rightHangingEncoder.setPosition(0);
     }
 
-    private final MutableMeasure<Voltage> volts = MutableMeasure.mutable(Volts.of(0));
-
-    private final MutableMeasure<Distance> distance = MutableMeasure.mutable(Meters.of(0));
+    private final MutableMeasure<Voltage> voltage = MutableMeasure.mutable(Volts.of(0));
 
     private final MutableMeasure<Velocity<Angle>> velocity = MutableMeasure.mutable(RPM.of(0));
 
-    private final SysIdRoutine routine = new SysIdRoutine(new SysIdRoutine.Config(), new SysIdRoutine.Mechanism(
+    public final SysIdRoutine routine = new SysIdRoutine(new SysIdRoutine.Config(), new SysIdRoutine.Mechanism(
             volts -> this.hangVoltage(volts.in(Volts)),
             log -> {
-                log.motor("leftHanging").angularVelocity(velocity.mut_replace(leftHangingEncoder.getVelocity(), RPM));
-                log.motor("rightHanging").angularVelocity(velocity.mut_replace(rightHangingEncoder.getVelocity(), RPM));
+                log.motor("leftHanging")
+                    .voltage(voltage.mut_replace(leftHangingMotor.getBusVoltage(), Volts))
+                    .angularVelocity(velocity.mut_replace(leftHangingEncoder.getVelocity(), RPM));
+                log.motor("rightHanging")
+                    .voltage(voltage.mut_replace(rightHangingMotor.getBusVoltage(), Volts))
+                    .angularVelocity(velocity.mut_replace(rightHangingEncoder.getVelocity(), RPM));
             }, this));
 }
