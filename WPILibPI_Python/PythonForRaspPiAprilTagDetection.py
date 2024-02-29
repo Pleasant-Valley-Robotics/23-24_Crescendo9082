@@ -80,15 +80,12 @@ def main():
             )
         )
         # Detect apriltag
-        DETECTION_MARGIN_THRESHOLD = 100
+        DETECTION_MARGIN_THRESHOLD = 80
         DETECTION_ITERATIONS = 50
 
         gray = cv2.cvtColor(input_img, cv2.COLOR_BGR2GRAY)
         tag_info = detector.detect(gray)
         filter_tags = [tag for tag in tag_info if tag.getDecisionMargin() > DETECTION_MARGIN_THRESHOLD]
-
-        # OPTIONAL: Ignore any tags not in the set used on the 2023 FRC field:
-        #filter_tags = [tag for tag in filter_tags if ((tag.getId() > 0) & (tag.getId() < 9))]
 
         for tag in filter_tags:
 
@@ -100,7 +97,6 @@ def main():
             print(f"{tag_id}: {pose}")
             
             # Highlight the edges of all recognized tags and label them with their IDs:
-
             if ((tag_id > 0) & (tag_id < 17)):
                 col_box = (0,255,0)
                 col_txt = (255,255,255)
@@ -117,7 +113,6 @@ def main():
             cv2.line(output_img, corner1, corner2, color = col_box, thickness = 2)
             cv2.line(output_img, corner2, corner3, color = col_box, thickness = 2)
             cv2.line(output_img, corner3, corner0, color = col_box, thickness = 2)
-            #translation = pose.translation()
             # Label the tag with the ID:
             cv2.putText(output_img, f"{tag_id}", (int(center.x), int(center.y)), cv2.FONT_HERSHEY_SIMPLEX, 1, col_txt, 2)
 
