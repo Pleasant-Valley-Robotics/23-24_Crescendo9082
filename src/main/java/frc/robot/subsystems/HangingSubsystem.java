@@ -7,8 +7,11 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
+import edu.wpi.first.units.*;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 
+import static edu.wpi.first.units.Units.*;
 import static frc.robot.Constants.MotorPorts.LEFT_HANGING_MOTOR_PORT;
 import static frc.robot.Constants.MotorPorts.RIGHT_HANGING_MOTOR_PORT;
 
@@ -60,4 +63,17 @@ public class HangingSubsystem extends SubsystemBase {
         leftHangingEncoder.setPosition(0);
         rightHangingEncoder.setPosition(0);
     }
+
+    private final MutableMeasure<Voltage> volts = MutableMeasure.mutable(Volts.of(0));
+
+    private final MutableMeasure<Distance> distance = MutableMeasure.mutable(Meters.of(0));
+
+    private final MutableMeasure<Velocity<Angle>> velocity = MutableMeasure.mutable(RPM.of(0));
+
+    private final SysIdRoutine routine = new SysIdRoutine(new SysIdRoutine.Config(), new SysIdRoutine.Mechanism(
+            volts -> this.hangVoltage(volts.in(Volts)),
+            log -> {
+                log.motor("leftHanging").angularVelocity(velocity.mut_replace(leftHangingEncoder.getVelocity(), RPM));
+                log.motor("rightHanging").angularVelocity(velocity.mut_replace(rightHangingEncoder.getVelocity(), RPM));
+            }, this));
 }

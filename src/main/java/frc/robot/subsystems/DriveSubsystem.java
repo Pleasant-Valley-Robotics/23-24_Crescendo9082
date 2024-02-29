@@ -23,8 +23,6 @@ import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
-import frc.robot.Constants;
-import frc.robot.Constants.MotorPorts;
 
 import static edu.wpi.first.units.Units.*;
 import static frc.robot.Constants.MotorPorts.*;
@@ -276,13 +274,27 @@ public class DriveSubsystem extends SubsystemBase {
 
     private final MutableMeasure<Velocity<Distance>> velocity = MutableMeasure.mutable(MetersPerSecond.of(0));
 
-    private final SysIdRoutine routine = new SysIdRoutine(new SysIdRoutine.Config(), new SysIdRoutine.Mechanism(volts -> this.setDriveMotorControllersVolts(new MecanumDriveMotorVoltages(volts.in(Volts), volts.in(Volts), volts.in(Volts), volts.in(Volts))), log -> {
-        var voltages = this.getAppliedVoltages();
-        log.motor("FLDrive").voltage(volts.mut_replace(voltages.frontLeftVoltage, Volts)).linearPosition(distance.mut_replace(this.getFrontLeftEncoder().getPosition(), Meters)).linearVelocity(velocity.mut_replace(this.getFrontLeftEncoder().getVelocity(), MetersPerSecond));
-        log.motor("FRDrive").voltage(volts.mut_replace(voltages.frontRightVoltage, Volts)).linearPosition(distance.mut_replace(this.getFrontRightEncoder().getPosition(), Meters)).linearVelocity(velocity.mut_replace(this.getFrontRightEncoder().getVelocity(), MetersPerSecond));
-        log.motor("BLDrive").voltage(volts.mut_replace(voltages.rearLeftVoltage, Volts)).linearPosition(distance.mut_replace(this.getBackLeftEncoder().getPosition(), Meters)).linearVelocity(velocity.mut_replace(this.getBackLeftEncoder().getVelocity(), MetersPerSecond));
-        log.motor("BRDrive").voltage(volts.mut_replace(voltages.rearRightVoltage, Volts)).linearPosition(distance.mut_replace(this.getBackRightEncoder().getPosition(), Meters)).linearVelocity(velocity.mut_replace(this.getBackRightEncoder().getVelocity(), MetersPerSecond));
-    }, this));
+    private final SysIdRoutine routine = new SysIdRoutine(new SysIdRoutine.Config(), new SysIdRoutine.Mechanism(
+            volts -> this.setDriveMotorControllersVolts(new MecanumDriveMotorVoltages(volts.in(Volts), volts.in(Volts), volts.in(Volts), volts.in(Volts))),
+            log -> {
+                var voltages = this.getAppliedVoltages();
+                log.motor("FLDrive")
+                        .voltage(volts.mut_replace(voltages.frontLeftVoltage, Volts))
+                        .linearPosition(distance.mut_replace(this.getFrontLeftEncoder().getPosition(), Meters))
+                        .linearVelocity(velocity.mut_replace(this.getFrontLeftEncoder().getVelocity(), MetersPerSecond));
+                log.motor("FRDrive")
+                        .voltage(volts.mut_replace(voltages.frontRightVoltage, Volts))
+                        .linearPosition(distance.mut_replace(this.getFrontRightEncoder().getPosition(), Meters))
+                        .linearVelocity(velocity.mut_replace(this.getFrontRightEncoder().getVelocity(), MetersPerSecond));
+                log.motor("BLDrive")
+                        .voltage(volts.mut_replace(voltages.rearLeftVoltage, Volts))
+                        .linearPosition(distance.mut_replace(this.getBackLeftEncoder().getPosition(), Meters))
+                        .linearVelocity(velocity.mut_replace(this.getBackLeftEncoder().getVelocity(), MetersPerSecond));
+                log.motor("BRDrive")
+                        .voltage(volts.mut_replace(voltages.rearRightVoltage, Volts))
+                        .linearPosition(distance.mut_replace(this.getBackRightEncoder().getPosition(), Meters))
+                        .linearVelocity(velocity.mut_replace(this.getBackRightEncoder().getVelocity(), MetersPerSecond));
+            }, this));
 
     /**
      * Sets up a command for a test with a very small voltage increase.

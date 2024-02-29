@@ -37,7 +37,7 @@ public class DriveCommands {
         return new RunCommand(() -> {
             robotNoteMover.setArmSpeed(joystick.getY());
             double intakeA = joystick.getRawButton(11) ? 1 : 0;
-            double intakeB = joystick.getRawButton(12) ? 1 : 0;
+            double intakeB = joystick.getRawButton(12) ? -1 : 0;
             robotNoteMover.setIntakeSpeed(clamp(intakeA + intakeB, -1, 1));
             robotNoteMover.setShooterSpeed(clamp(intakeA + intakeB, -1, 1));
         }, robotNoteMover);
