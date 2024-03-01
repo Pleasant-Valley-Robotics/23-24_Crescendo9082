@@ -15,7 +15,6 @@ import frc.robot.commands.DriveCommands;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.HangingSubsystem;
 import frc.robot.subsystems.NoteMoverSubsystem;
-import frc.robot.subsystems.ShooterSubsystem;
 
 /*
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -42,10 +41,10 @@ public class RobotContainer {
 
 
     private void configureTeleOpCommands() {
-        robotDrive.setDefaultCommand(DriveCommands.getDrivebaseTeleCommand(driverJoystick, robotDrive));
+//        robotDrive.setDefaultCommand(DriveCommands.getDrivebaseTeleCommand(driverJoystick, robotDrive));
 
-//        robotIntake.setDefaultCommand(DriveCommands.getIntakeTeleCommand(driverJoystick2, robotIntake));
-        robotHanging.setDefaultCommand(DriveCommands.getHangingTeleCommand(driverJoystick2, robotHanging));
+//        robotNoteMover.setDefaultCommand(DriveCommands.getNoteMoverTeleCommand(driverJoystick2, robotNoteMover));
+//        robotHanging.setDefaultCommand(DriveCommands.getHangingTeleCommand(driverJoystick2, robotHanging));
     }
 
     private void configureButtonBindings() {
@@ -65,29 +64,25 @@ public class RobotContainer {
 //        new JoystickButton(driverJoystick, 12)
 //                .onTrue(new InstantCommand(() -> robotDrive.resetOdometry(new Pose2d(0, 0, new Rotation2d(0)))));
 
-        new JoystickButton(driverJoystick, 7).whileTrue(robotDrive.routine.quasistatic(SysIdRoutine.Direction.kForward));
-        new JoystickButton(driverJoystick, 8).whileTrue(robotDrive.routine.quasistatic(SysIdRoutine.Direction.kReverse));
-        new JoystickButton(driverJoystick, 9).whileTrue(robotDrive.routine.dynamic(SysIdRoutine.Direction.kForward));
-        new JoystickButton(driverJoystick, 10).whileTrue(robotDrive.routine.dynamic(SysIdRoutine.Direction.kReverse));
+//        SysIdRoutine routine = robotDrive.routine;
+        SysIdRoutine routine = robotNoteMover.intakeRoutine;
+//        SysIdRoutine routine = robotNoteMover.shooterRoutine;
+//        SysIdRoutine routine = robotHanging.routine;
 
-//        new JoystickButton(driverJoystick, 7).whileTrue(robotNoteMover.routine.quasistatic(SysIdRoutine.Direction.kForward));
-//        new JoystickButton(driverJoystick, 8).whileTrue(robotNoteMover.routine.quasistatic(SysIdRoutine.Direction.kReverse));
-//        new JoystickButton(driverJoystick, 9).whileTrue(robotNoteMover.routine.dynamic(SysIdRoutine.Direction.kForward));
-//        new JoystickButton(driverJoystick, 10).whileTrue(robotNoteMover.routine.dynamic(SysIdRoutine.Direction.kReverse));
-
-//        new JoystickButton(driverJoystick, 7).whileTrue(robotHanging.routine.quasistatic(SysIdRoutine.Direction.kForward));
-//        new JoystickButton(driverJoystick, 8).whileTrue(robotHanging.routine.quasistatic(SysIdRoutine.Direction.kReverse));
-//        new JoystickButton(driverJoystick, 9).whileTrue(robotHanging.routine.dynamic(SysIdRoutine.Direction.kForward));
-//        new JoystickButton(driverJoystick, 10).whileTrue(robotHanging.routine.dynamic(SysIdRoutine.Direction.kReverse));
+        new JoystickButton(driverJoystick2, 7).whileTrue(routine.quasistatic(SysIdRoutine.Direction.kForward));
+        new JoystickButton(driverJoystick2, 8).whileTrue(routine.quasistatic(SysIdRoutine.Direction.kReverse));
+        new JoystickButton(driverJoystick2, 9).whileTrue(routine.dynamic(SysIdRoutine.Direction.kForward));
+        new JoystickButton(driverJoystick2, 10).whileTrue(routine.dynamic(SysIdRoutine.Direction.kReverse));
     }
 
-     /**
+    /**
      * Use this to pass the autonomous command to the main {@link Robot} class.
      *
      * @return the command to run in autonomous
      */
     public Command getAutonomousCommand() {
-       return AutoCommands.simpleAuto(robotDrive);
+        return AutoCommands.simpleAuto(robotDrive);
+//        return null;
         // return new DriveDistance(2,.2, robotDrive);
     }
 }

@@ -31,24 +31,19 @@ public class NoteMoverSubsystem extends SubsystemBase {
     public final RelativeEncoder shooterTopEncoder = shooterTopMotor.getEncoder();
     public final RelativeEncoder shooterBottomEncoder = shooterBottomMotor.getEncoder();
 
-    public final CANSparkMax armLeftMotor = new CANSparkMax(ARM_LEFT_MOTOR_PORT, MotorType.kBrushless);
-    public final CANSparkMax armRightMotor = new CANSparkMax(ARM_RIGHT_MOTOR_PORT, MotorType.kBrushless);
-    public final RelativeEncoder armLeftEncoder = armLeftMotor.getEncoder();
-    public final RelativeEncoder armRightEncoder = armRightMotor.getEncoder();
-
 
     public NoteMoverSubsystem() {
+        intakeTopEncoder.setPositionConversionFactor(REVS_TO_RADIANS);
+        intakeTopEncoder.setVelocityConversionFactor(REV_PER_MIN_TO_RADIAN_PER_SEC);
+
+        intakeBottomEncoder.setPositionConversionFactor(REVS_TO_RADIANS);
+        intakeBottomEncoder.setVelocityConversionFactor(REV_PER_MIN_TO_RADIAN_PER_SEC);
+
         shooterTopEncoder.setPositionConversionFactor(REVS_TO_RADIANS);
         shooterTopEncoder.setVelocityConversionFactor(REV_PER_MIN_TO_RADIAN_PER_SEC);
 
         shooterBottomEncoder.setPositionConversionFactor(REVS_TO_RADIANS);
         shooterBottomEncoder.setVelocityConversionFactor(REV_PER_MIN_TO_RADIAN_PER_SEC);
-
-        armLeftEncoder.setPositionConversionFactor(REVS_TO_RADIANS);
-        armLeftEncoder.setVelocityConversionFactor(REV_PER_MIN_TO_RADIAN_PER_SEC);
-
-        armRightEncoder.setPositionConversionFactor(REVS_TO_RADIANS);
-        armRightEncoder.setVelocityConversionFactor(REV_PER_MIN_TO_RADIAN_PER_SEC);
     }
 
     @Override
@@ -77,10 +72,6 @@ public class NoteMoverSubsystem extends SubsystemBase {
         shooterBottomMotor.set(speed);
     }
 
-    public void setArmSpeed(double speed) {
-        armLeftMotor.set(speed);
-        armRightMotor.set(speed);
-    }
 
     private final MutableMeasure<Voltage> volts = MutableMeasure.mutable(Volts.of(0));
 
@@ -88,27 +79,33 @@ public class NoteMoverSubsystem extends SubsystemBase {
 
     private final MutableMeasure<Velocity<Angle>> velocity = MutableMeasure.mutable(RadiansPerSecond.of(0));
 
-    public final SysIdRoutine routine = new SysIdRoutine(new SysIdRoutine.Config(), new SysIdRoutine.Mechanism(
+    public final SysIdRoutine intakeRoutine = new SysIdRoutine(new SysIdRoutine.Config(), new SysIdRoutine.Mechanism(
             volts -> {
                 intakeTopMotor.setVoltage(volts.in(Volts));
                 intakeBottomMotor.setVoltage(volts.in(Volts));
+            },
+            log -> {
+                log.motor("intakeTopMotor")
+                        .voltage(volts.mut_replace(intakeTopMotor.getBusVoltage(), Volts))
+                        .angularPosition(distance.mut_replace(intakeTopEncoder.getPosition(), Radians))
+                        .angularVelocity(velocity.mut_replace(intakeTopEncoder.getVelocity(), RadiansPerSecond));
+                log.motor("intakeBottomMotor")
+                        .voltage(volts.mut_replace(intakeBottomMotor.getBusVoltage(), Volts))
+                        .angularPosition(distance.mut_replace(intakeBottomEncoder.getPosition(), Radians))
+                        .angularVelocity(velocity.mut_replace(intakeBottomEncoder.getVelocity(), RadiansPerSecond));
+            }, this));
+
+    public final SysIdRoutine shooterRoutine = new SysIdRoutine(new SysIdRoutine.Config(), new SysIdRoutine.Mechanism(
+            volts -> {
                 shooterTopMotor.setVoltage(volts.in(Volts));
                 shooterBottomMotor.setVoltage(volts.in(Volts));
             },
             log -> {
                 log.motor("shooterTopMotor")
-                        .voltage(volts.mut_replace(intakeTopMotor.getBusVoltage(), Volts))
-                        .angularPosition(distance.mut_replace(intakeTopEncoder.getPosition(), Radians))
-                        .angularVelocity(velocity.mut_replace(intakeBottomEncoder.getVelocity(), RadiansPerSecond));
-                log.motor("intakeBottomMotor")
-                        .voltage(volts.mut_replace(intakeBottomMotor.getBusVoltage(), Volts))
+                        .voltage(volts.mut_replace(shooterTopMotor.getBusVoltage(), Volts))
                         .angularPosition(distance.mut_replace(shooterTopEncoder.getPosition(), Radians))
                         .angularVelocity(velocity.mut_replace(shooterBottomEncoder.getVelocity(), RadiansPerSecond));
                 log.motor("shooterBottomMotor")
-                        .voltage(volts.mut_replace(shooterTopMotor.getBusVoltage(), Volts))
-                        .angularPosition(distance.mut_replace(shooterBottomEncoder.getPosition(), Radians))
-                        .angularVelocity(velocity.mut_replace(shooterBottomEncoder.getVelocity(), RadiansPerSecond));
-                log.motor("intakeTopMotor")
                         .voltage(volts.mut_replace(shooterBottomMotor.getBusVoltage(), Volts))
                         .angularPosition(distance.mut_replace(shooterBottomEncoder.getPosition(), Radians))
                         .angularVelocity(velocity.mut_replace(shooterBottomEncoder.getVelocity(), RadiansPerSecond));
